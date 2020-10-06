@@ -4,6 +4,9 @@
 # Ignore Gradle build output directory
 build/
 
+# Ignore generated files
+lombok.config
+
 # Ignore IDE stuff
 .idea/
 .settings/
