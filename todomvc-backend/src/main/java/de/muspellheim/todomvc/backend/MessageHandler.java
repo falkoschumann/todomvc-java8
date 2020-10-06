@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import lombok.val;
-import lombok.var;
 
 public class MessageHandler {
   private final TodoRepository repository;
@@ -44,9 +43,8 @@ public class MessageHandler {
 
   public CommandStatus handle(ToggleAllCommand command) {
     try {
-      var todos = repository.load();
-      todos =
-          todos.stream()
+      val todos =
+          repository.load().stream()
               .map(it -> it.withCompleted(command.isCompleted()))
               .collect(Collectors.toList());
       repository.store(todos);
@@ -58,9 +56,8 @@ public class MessageHandler {
 
   public CommandStatus handle(ToggleCommand command) {
     try {
-      var todos = repository.load();
-      todos =
-          todos.stream()
+      val todos =
+          repository.load().stream()
               .map(
                   it ->
                       (it.getId().equals(command.getId()))
@@ -76,9 +73,10 @@ public class MessageHandler {
 
   public CommandStatus handle(DestroyCommand command) {
     try {
-      var todos = repository.load();
-      todos =
-          todos.stream().filter(it -> it.getId() != command.getId()).collect(Collectors.toList());
+      val todos =
+          repository.load().stream()
+              .filter(it -> it.getId() != command.getId())
+              .collect(Collectors.toList());
       repository.store(todos);
       return new Success();
     } catch (IOException e) {
@@ -88,9 +86,8 @@ public class MessageHandler {
 
   public CommandStatus handle(EditCommand command) {
     try {
-      var todos = repository.load();
-      todos =
-          todos.stream()
+      val todos =
+          repository.load().stream()
               .map(it -> it.getId().equals(command.getId()) ? it.withTitle(command.getTitle()) : it)
               .collect(Collectors.toList());
       repository.store(todos);
@@ -102,8 +99,8 @@ public class MessageHandler {
 
   public CommandStatus handle(ClearCompletedCommand command) {
     try {
-      var todos = repository.load();
-      todos = todos.stream().filter(it -> !it.isCompleted()).collect(Collectors.toList());
+      val todos =
+          repository.load().stream().filter(it -> !it.isCompleted()).collect(Collectors.toList());
       repository.store(todos);
       return new Success();
     } catch (IOException e) {
