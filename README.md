@@ -1,6 +1,6 @@
 # TodoMVC
 
-[![Build Status](https://travis-ci.org/falkoschumann/java-todomvc.svg?branch=main)](https://travis-ci.org/falkoschumann/java-todomvc)
+[![Build Status](https://travis-ci.org/falkoschumann/java-todomvc.svg?branch=master)](https://travis-ci.org/falkoschumann/java-todomvc)
 
 TODO: Description
 
