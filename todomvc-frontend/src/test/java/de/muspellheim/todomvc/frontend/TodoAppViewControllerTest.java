@@ -18,7 +18,7 @@ public class TodoAppViewControllerTest extends Application {
   private Stage stage;
 
   public static void main(String[] args) {
-    Application.launch(TodoAppViewControllerTest.class, args);
+    Application.launch(args);
   }
 
   @Override
