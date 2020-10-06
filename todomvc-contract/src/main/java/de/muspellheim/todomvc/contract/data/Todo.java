@@ -16,7 +16,7 @@ public class Todo {
   @With @NonNull String title;
   @With boolean completed;
 
-  public static Todo of(String title) {
+  public static Todo of(@NonNull String title) {
     return new Todo(UUID.randomUUID().toString(), title, false);
   }
 }

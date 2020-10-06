@@ -10,12 +10,13 @@ import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
 import de.muspellheim.todomvc.contract.messages.commands.EditCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import java.util.function.Consumer;
+import lombok.NonNull;
 import lombok.Value;
 
 @Value
 public class TodoModel {
-  Todo todo;
-  Consumer<ToggleCommand> onToggleCommand;
-  Consumer<EditCommand> onEditCommand;
-  Consumer<DestroyCommand> onDestroyCommand;
+  @NonNull Todo todo;
+  @NonNull Consumer<ToggleCommand> onToggleCommand;
+  @NonNull Consumer<EditCommand> onEditCommand;
+  @NonNull Consumer<DestroyCommand> onDestroyCommand;
 }

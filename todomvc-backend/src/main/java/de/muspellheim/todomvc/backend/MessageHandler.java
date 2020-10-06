@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 import lombok.val;
 
 public class MessageHandler {
@@ -30,7 +31,7 @@ public class MessageHandler {
     this.repository = repository;
   }
 
-  public CommandStatus handle(NewTodoCommand command) {
+  public CommandStatus handle(@NonNull NewTodoCommand command) {
     try {
       val todos = new ArrayList<>(repository.load());
       todos.add(Todo.of(command.getTitle()));
@@ -41,7 +42,7 @@ public class MessageHandler {
     }
   }
 
-  public CommandStatus handle(ToggleAllCommand command) {
+  public CommandStatus handle(@NonNull ToggleAllCommand command) {
     try {
       val todos =
           repository.load().stream()
@@ -54,7 +55,7 @@ public class MessageHandler {
     }
   }
 
-  public CommandStatus handle(ToggleCommand command) {
+  public CommandStatus handle(@NonNull ToggleCommand command) {
     try {
       val todos =
           repository.load().stream()
@@ -71,7 +72,7 @@ public class MessageHandler {
     }
   }
 
-  public CommandStatus handle(DestroyCommand command) {
+  public CommandStatus handle(@NonNull DestroyCommand command) {
     try {
       val todos =
           repository.load().stream()
@@ -84,7 +85,7 @@ public class MessageHandler {
     }
   }
 
-  public CommandStatus handle(EditCommand command) {
+  public CommandStatus handle(@NonNull EditCommand command) {
     try {
       val todos =
           repository.load().stream()
@@ -97,7 +98,7 @@ public class MessageHandler {
     }
   }
 
-  public CommandStatus handle(ClearCompletedCommand command) {
+  public CommandStatus handle(@NonNull ClearCompletedCommand command) {
     try {
       val todos =
           repository.load().stream().filter(it -> !it.isCompleted()).collect(Collectors.toList());
@@ -108,7 +109,7 @@ public class MessageHandler {
     }
   }
 
-  public TodoListQueryResult handle(TodoListQuery query) {
+  public TodoListQueryResult handle(@NonNull TodoListQuery query) {
     try {
       val todos = repository.load();
       return new TodoListQueryResult(todos);

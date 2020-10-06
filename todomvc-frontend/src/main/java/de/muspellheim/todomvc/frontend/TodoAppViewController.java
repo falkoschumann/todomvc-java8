@@ -33,6 +33,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Pair;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.val;
 
@@ -101,7 +102,7 @@ public class TodoAppViewController {
     onClearCompletedCommand.accept(new ClearCompletedCommand());
   }
 
-  public void display(TodoListQueryResult result) {
+  public void display(@NonNull TodoListQueryResult result) {
     todos = result.getTodos();
     updateTodoList();
 
