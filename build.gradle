@@ -29,7 +29,7 @@ subprojects {
     spotless {
         java {
             googleJavaFormat()
-            licenseHeaderFile('config/licenseHeader.txt')
+            licenseHeaderFile('config/LicenseHeader.txt')
         }
     }
 }
