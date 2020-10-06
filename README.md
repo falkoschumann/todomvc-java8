@@ -21,6 +21,8 @@ TODO: Usage
     `@Value` oder `@Builder`.
 -   Hinweis: Die Nutzung von `lombok.var` bricht die Kompatibilität mit Java 10
     und höher.
+-   Hinweis: Die Nutzung von JavaFX bricht die Kompatibilität mit Java 9 und
+    höher.
 
 
 [1]: https://google.github.io/styleguide/javaguide.html
