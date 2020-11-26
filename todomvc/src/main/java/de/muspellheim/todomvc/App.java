@@ -5,8 +5,14 @@
 
 package de.muspellheim.todomvc;
 
-import de.muspellheim.todomvc.backend.MessageHandler;
 import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
+import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.EditCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.NewTodoCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.TodoListQueryHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
 import de.muspellheim.todomvc.contract.messages.queries.TodoListQuery;
 import de.muspellheim.todomvc.frontend.TodoAppViewController;
 import java.nio.file.Paths;
@@ -16,8 +22,15 @@ import javafx.stage.Stage;
 import lombok.var;
 
 public class App extends Application {
+  private NewTodoCommandHandler newTodoCommandHandler;
+  private ToggleCommandHandler toggleCommandHandler;
+  private ToggleAllCommandHandler toggleAllCommandHandler;
+  private EditCommandHandler editCommandHandler;
+  private DestroyCommandHandler destroyCommandHandler;
+  private ClearCompletedCommandHandler clearCompletedCommandHandler;
+  private TodoListQueryHandler todoListQueryHandler;
+
   private Stage stage;
-  private MessageHandler messageHandler;
   private TodoAppViewController controller;
 
   public static void main(String[] args) {
@@ -35,7 +48,13 @@ public class App extends Application {
   private void build() {
     var file = Paths.get("todos.json");
     var repository = new TodoJsonRepository(file);
-    messageHandler = new MessageHandler(repository);
+    newTodoCommandHandler = new NewTodoCommandHandler(repository);
+    toggleCommandHandler = new ToggleCommandHandler(repository);
+    toggleAllCommandHandler = new ToggleAllCommandHandler(repository);
+    editCommandHandler = new EditCommandHandler(repository);
+    destroyCommandHandler = new DestroyCommandHandler(repository);
+    clearCompletedCommandHandler = new ClearCompletedCommandHandler(repository);
+    todoListQueryHandler = new TodoListQueryHandler(repository);
 
     var root = TodoAppViewController.load();
     var view = root.getKey();
@@ -48,32 +67,32 @@ public class App extends Application {
   private void bind() {
     controller.setOnNewTodoCommand(
         it -> {
-          messageHandler.handle(it);
-          runQuery();
-        });
-    controller.setOnToggleAllCommand(
-        it -> {
-          messageHandler.handle(it);
+          newTodoCommandHandler.handle(it);
           runQuery();
         });
     controller.setOnToggleCommand(
         it -> {
-          messageHandler.handle(it);
+          toggleCommandHandler.handle(it);
           runQuery();
         });
-    controller.setOnDestroyCommand(
+    controller.setOnToggleAllCommand(
         it -> {
-          messageHandler.handle(it);
+          toggleAllCommandHandler.handle(it);
           runQuery();
         });
     controller.setOnEditCommand(
         it -> {
-          messageHandler.handle(it);
+          editCommandHandler.handle(it);
+          runQuery();
+        });
+    controller.setOnDestroyCommand(
+        it -> {
+          destroyCommandHandler.handle(it);
           runQuery();
         });
     controller.setOnClearCompletedCommand(
         it -> {
-          messageHandler.handle(it);
+          clearCompletedCommandHandler.handle(it);
           runQuery();
         });
     controller.setOnTodoListQuery(it -> runQuery());
@@ -85,7 +104,7 @@ public class App extends Application {
   }
 
   private void runQuery() {
-    var result = messageHandler.handle(new TodoListQuery());
+    var result = todoListQueryHandler.handle(new TodoListQuery());
     controller.display(result);
   }
 }
