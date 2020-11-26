@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lombok.val;
+import lombok.var;
 
 public class App extends Application {
   private Stage stage;
@@ -33,12 +33,12 @@ public class App extends Application {
   }
 
   private void build() {
-    val file = Paths.get("todos.json");
-    val repository = new TodoJsonRepository(file);
+    var file = Paths.get("todos.json");
+    var repository = new TodoJsonRepository(file);
     messageHandler = new MessageHandler(repository);
 
-    val root = TodoAppViewController.load();
-    val view = root.getKey();
+    var root = TodoAppViewController.load();
+    var view = root.getKey();
     controller = root.getValue();
     Scene scene = new Scene(view);
     stage.setScene(scene);
@@ -85,7 +85,7 @@ public class App extends Application {
   }
 
   private void runQuery() {
-    val result = messageHandler.handle(new TodoListQuery());
+    var result = messageHandler.handle(new TodoListQuery());
     controller.display(result);
   }
 }

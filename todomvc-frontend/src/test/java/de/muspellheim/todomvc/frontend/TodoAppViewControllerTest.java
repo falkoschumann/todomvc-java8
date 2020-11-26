@@ -11,7 +11,7 @@ import java.util.Arrays;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lombok.val;
+import lombok.var;
 
 public class TodoAppViewControllerTest extends Application {
   private TodoAppViewController controller;
@@ -30,8 +30,8 @@ public class TodoAppViewControllerTest extends Application {
   }
 
   private void build() {
-    val root = TodoAppViewController.load();
-    val view = root.getKey();
+    var root = TodoAppViewController.load();
+    var view = root.getKey();
     controller = root.getValue();
     Scene scene = new Scene(view);
     stage.setScene(scene);

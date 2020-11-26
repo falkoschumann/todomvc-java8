@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import lombok.val;
+import lombok.var;
 import org.junit.jupiter.api.Test;
 
 public class TodoJsonRepositoryTests {
@@ -23,9 +23,9 @@ public class TodoJsonRepositoryTests {
 
   @Test
   void load() throws IOException {
-    val repository = new TodoJsonRepository(READ_TEST_FILE);
+    var repository = new TodoJsonRepository(READ_TEST_FILE);
 
-    val todos = repository.load();
+    var todos = repository.load();
 
     assertEquals(createTestData(), todos);
   }
@@ -33,12 +33,12 @@ public class TodoJsonRepositoryTests {
   @Test
   void store() throws IOException {
     Files.createDirectories(WRITTEN_TEST_FILE.getParent());
-    val repository = new TodoJsonRepository(WRITTEN_TEST_FILE);
-    val todos = createTestData();
+    var repository = new TodoJsonRepository(WRITTEN_TEST_FILE);
+    var todos = createTestData();
 
     repository.store(todos);
 
-    val actualTodos = repository.load();
+    var actualTodos = repository.load();
     assertEquals(createTestData(), actualTodos);
   }
 

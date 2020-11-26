@@ -35,7 +35,7 @@ import javafx.util.Pair;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.val;
+import lombok.var;
 
 public class TodoAppViewController {
   @Getter @Setter private Consumer<NewTodoCommand> onNewTodoCommand;
@@ -73,7 +73,7 @@ public class TodoAppViewController {
   }
 
   public void newTodo() {
-    val text = newTodo.getText().trim();
+    var text = newTodo.getText().trim();
     if (text.isEmpty()) {
       return;
     }
@@ -82,7 +82,7 @@ public class TodoAppViewController {
   }
 
   public void toggleAll() {
-    val checked = toggleAll.isSelected();
+    var checked = toggleAll.isSelected();
     onToggleAllCommand.accept(new ToggleAllCommand(checked));
   }
 
@@ -106,10 +106,10 @@ public class TodoAppViewController {
     todos = result.getTodos();
     updateTodoList();
 
-    val completedCount = result.getTodos().stream().filter(Todo::isCompleted).count();
-    val activeTodoCount = result.getTodos().size() - completedCount;
+    var completedCount = result.getTodos().stream().filter(Todo::isCompleted).count();
+    var activeTodoCount = result.getTodos().size() - completedCount;
 
-    val hasTodos = !result.getTodos().isEmpty();
+    var hasTodos = !result.getTodos().isEmpty();
     toggleAll.setVisible(hasTodos);
     todoList.setVisible(hasTodos);
     todoList.setManaged(hasTodos);
@@ -118,7 +118,7 @@ public class TodoAppViewController {
 
     toggleAll.setSelected(result.getTodos().size() == completedCount);
 
-    val text = new Text(String.valueOf(activeTodoCount));
+    var text = new Text(String.valueOf(activeTodoCount));
     text.setStyle("-fx-font-weight: bold");
     todoCount
         .getChildren()
@@ -128,7 +128,7 @@ public class TodoAppViewController {
   }
 
   private void updateTodoList() {
-    val todoModels =
+    var todoModels =
         todos.stream()
             .filter(
                 it ->
