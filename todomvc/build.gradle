@@ -15,6 +15,12 @@ task run(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task runDemo(type: JavaExec) {
+    group = 'application'
+    main = 'de.muspellheim.todomvc.DemoApp'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task uberJar(type: Jar) {
     group = 'distribution'
     archiveClassifier = 'uber'
