@@ -8,6 +8,7 @@ package de.muspellheim.todomvc.frontend;
 import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
 import de.muspellheim.todomvc.contract.messages.commands.EditCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -18,18 +19,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 public class TodoListCell<T extends TodoModel> extends ListCell<T> {
-  private HBox container;
-  private CheckBox completed;
-  private Label title;
-  private Button destroy;
-  private TextField edit;
+  private final HBox container;
+  private final CheckBox completed;
+  private final Label title;
+  private final Button destroy;
+  private final TextField edit;
 
   public TodoListCell() {
-    build();
-    bind();
-  }
+    completed = new CheckBox();
 
-  private void build() {
     title = new Label();
     title.setMaxWidth(Double.MAX_VALUE);
     title.setMaxHeight(Double.MAX_VALUE);
@@ -41,13 +39,9 @@ public class TodoListCell<T extends TodoModel> extends ListCell<T> {
     destroy = new Button("X");
     destroy.setVisible(false);
 
-    completed = new CheckBox();
-
-    container = new HBox();
+    container = new HBox(8);
+    container.setAlignment(Pos.CENTER_LEFT);
     container.getChildren().setAll(completed, title, destroy);
-  }
-
-  private void bind() {
     container
         .hoverProperty()
         .addListener(

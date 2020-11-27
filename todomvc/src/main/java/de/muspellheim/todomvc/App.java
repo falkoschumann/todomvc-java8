@@ -15,7 +15,7 @@ import de.muspellheim.todomvc.backend.messagehandlers.TodoListQueryHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
 import de.muspellheim.todomvc.contract.messages.queries.TodoListQuery;
-import de.muspellheim.todomvc.frontend.TodoAppViewController;
+import de.muspellheim.todomvc.frontend.TodoAppView;
 import java.nio.file.Paths;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,8 +30,6 @@ public class App extends Application {
   private DestroyCommandHandler destroyCommandHandler;
   private ClearCompletedCommandHandler clearCompletedCommandHandler;
   private TodoListQueryHandler todoListQueryHandler;
-
-  private TodoAppViewController controller;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -50,60 +48,57 @@ public class App extends Application {
   }
 
   protected TodoRepository createTodoRepository() {
-    System.out.println("Foobar!");
     var file = Paths.get("todos.json");
     return new TodoJsonRepository(file);
   }
 
   @Override
   public void start(Stage stage) {
-    var root = TodoAppViewController.load();
-    var view = root.getKey();
-    controller = root.getValue();
-    controller.setOnNewTodoCommand(
+    var view = new TodoAppView();
+    view.setOnNewTodoCommand(
         it -> {
           newTodoCommandHandler.handle(it);
           var result = todoListQueryHandler.handle(new TodoListQuery());
-          controller.display(result);
+          view.display(result);
         });
-    controller.setOnToggleCommand(
+    view.setOnToggleCommand(
         it -> {
           toggleCommandHandler.handle(it);
           var result = todoListQueryHandler.handle(new TodoListQuery());
-          controller.display(result);
+          view.display(result);
         });
-    controller.setOnToggleAllCommand(
+    view.setOnToggleAllCommand(
         it -> {
           toggleAllCommandHandler.handle(it);
           var result = todoListQueryHandler.handle(new TodoListQuery());
-          controller.display(result);
+          view.display(result);
         });
-    controller.setOnEditCommand(
+    view.setOnEditCommand(
         it -> {
           editCommandHandler.handle(it);
           var result = todoListQueryHandler.handle(new TodoListQuery());
-          controller.display(result);
+          view.display(result);
         });
-    controller.setOnDestroyCommand(
+    view.setOnDestroyCommand(
         it -> {
           destroyCommandHandler.handle(it);
           var result = todoListQueryHandler.handle(new TodoListQuery());
-          controller.display(result);
+          view.display(result);
         });
-    controller.setOnClearCompletedCommand(
+    view.setOnClearCompletedCommand(
         it -> {
           clearCompletedCommandHandler.handle(it);
           var result = todoListQueryHandler.handle(new TodoListQuery());
-          controller.display(result);
+          view.display(result);
         });
-    controller.setOnTodoListQuery(
+    view.setOnTodoListQuery(
         it -> {
           var result = todoListQueryHandler.handle(new TodoListQuery());
-          controller.display(result);
+          view.display(result);
         });
 
     var result = todoListQueryHandler.handle(new TodoListQuery());
-    controller.display(result);
+    view.display(result);
 
     Scene scene = new Scene(view);
     stage.setScene(scene);
