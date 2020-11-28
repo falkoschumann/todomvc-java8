@@ -6,27 +6,27 @@
 package de.muspellheim.todomvc.backend.messagehandlers;
 
 import de.muspellheim.todomvc.backend.TodoRepository;
-import de.muspellheim.todomvc.contract.messages.queries.TodoListQuery;
-import de.muspellheim.todomvc.contract.messages.queries.TodoListQueryResult;
+import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
+import de.muspellheim.todomvc.contract.messages.queries.TodosQueryResult;
 import java.io.IOException;
 import java.util.Collections;
 import lombok.NonNull;
 import lombok.var;
 
-public class TodoListQueryHandler {
+public class TodosQueryHandler {
   private final TodoRepository repository;
 
-  public TodoListQueryHandler(TodoRepository repository) {
+  public TodosQueryHandler(TodoRepository repository) {
     this.repository = repository;
   }
 
-  public TodoListQueryResult handle(@NonNull TodoListQuery query) {
+  public TodosQueryResult handle(@NonNull TodosQuery query) {
     try {
       var todos = repository.load();
-      return new TodoListQueryResult(todos);
+      return new TodosQueryResult(todos);
     } catch (IOException e) {
       System.err.println(e);
-      return new TodoListQueryResult(Collections.emptyList());
+      return new TodosQueryResult(Collections.emptyList());
     }
   }
 }

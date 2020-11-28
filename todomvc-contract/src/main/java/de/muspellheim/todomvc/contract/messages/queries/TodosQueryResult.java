@@ -11,6 +11,6 @@ import lombok.NonNull;
 import lombok.Value;
 
 @Value
-public class TodoListQueryResult {
+public class TodosQueryResult {
   @NonNull List<Todo> todos;
 }

@@ -11,10 +11,10 @@ import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandl
 import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.EditCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.NewTodoCommandHandler;
-import de.muspellheim.todomvc.backend.messagehandlers.TodoListQueryHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.TodosQueryHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
-import de.muspellheim.todomvc.contract.messages.queries.TodoListQuery;
+import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
 import de.muspellheim.todomvc.frontend.TodoAppView;
 import java.nio.file.Paths;
 import javafx.application.Application;
@@ -29,7 +29,7 @@ public class App extends Application {
   private EditCommandHandler editCommandHandler;
   private DestroyCommandHandler destroyCommandHandler;
   private ClearCompletedCommandHandler clearCompletedCommandHandler;
-  private TodoListQueryHandler todoListQueryHandler;
+  private TodosQueryHandler todoListQueryHandler;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -44,7 +44,7 @@ public class App extends Application {
     editCommandHandler = new EditCommandHandler(repository);
     destroyCommandHandler = new DestroyCommandHandler(repository);
     clearCompletedCommandHandler = new ClearCompletedCommandHandler(repository);
-    todoListQueryHandler = new TodoListQueryHandler(repository);
+    todoListQueryHandler = new TodosQueryHandler(repository);
   }
 
   protected TodoRepository createTodoRepository() {
@@ -58,46 +58,46 @@ public class App extends Application {
     view.setOnNewTodoCommand(
         it -> {
           newTodoCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodoListQuery());
+          var result = todoListQueryHandler.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnToggleCommand(
         it -> {
           toggleCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodoListQuery());
+          var result = todoListQueryHandler.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnToggleAllCommand(
         it -> {
           toggleAllCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodoListQuery());
+          var result = todoListQueryHandler.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnEditCommand(
         it -> {
           editCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodoListQuery());
+          var result = todoListQueryHandler.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnDestroyCommand(
         it -> {
           destroyCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodoListQuery());
+          var result = todoListQueryHandler.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnClearCompletedCommand(
         it -> {
           clearCompletedCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodoListQuery());
+          var result = todoListQueryHandler.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnTodoListQuery(
         it -> {
-          var result = todoListQueryHandler.handle(new TodoListQuery());
+          var result = todoListQueryHandler.handle(new TodosQuery());
           view.display(result);
         });
 
-    var result = todoListQueryHandler.handle(new TodoListQuery());
+    var result = todoListQueryHandler.handle(new TodosQuery());
     view.display(result);
 
     Scene scene = new Scene(view);

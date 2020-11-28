@@ -1,5 +1,5 @@
 rootProject.name = 'todomvc-root'
+include 'todomvc'
 include 'todomvc-contract'
 include 'todomvc-backend'
 include 'todomvc-frontend'
-include 'todomvc'

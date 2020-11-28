@@ -5,4 +5,4 @@
 
 package de.muspellheim.todomvc.contract.messages.queries;
 
-public class TodoListQuery {}
+public class TodosQuery {}
