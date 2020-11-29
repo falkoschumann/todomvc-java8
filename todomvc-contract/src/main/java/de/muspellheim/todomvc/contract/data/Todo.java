@@ -6,17 +6,20 @@
 package de.muspellheim.todomvc.contract.data;
 
 import java.util.UUID;
-import lombok.NonNull;
-import lombok.Value;
-import lombok.With;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Todo {
-  @NonNull String id;
-  @With @NonNull String title;
-  @With boolean completed;
+  String id;
+  String title;
+  boolean completed;
 
-  public static Todo of(@NonNull String title) {
-    return new Todo(UUID.randomUUID().toString(), title, false);
+  public Todo(String title) {
+    this.id = UUID.randomUUID().toString();
+    this.title = title;
   }
 }

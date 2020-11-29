@@ -7,10 +7,13 @@ package de.muspellheim.todomvc.contract.messages.queries;
 
 import de.muspellheim.todomvc.contract.data.Todo;
 import java.util.List;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TodosQueryResult {
-  @NonNull List<Todo> todos;
+  List<Todo> todos;
 }

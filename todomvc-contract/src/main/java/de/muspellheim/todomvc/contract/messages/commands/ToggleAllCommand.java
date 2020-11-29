@@ -5,9 +5,13 @@
 
 package de.muspellheim.todomvc.contract.messages.commands;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ToggleAllCommand {
   boolean completed;
 }

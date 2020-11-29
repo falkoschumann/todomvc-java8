@@ -5,7 +5,7 @@
 
 package de.muspellheim.todomvc.contract.messages.commands;
 
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class ClearCompletedCommand {}

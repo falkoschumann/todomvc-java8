@@ -24,7 +24,7 @@ public class TodoTests {
 
   @Test
   void createConvenience() {
-    Todo todo = Todo.of("Taste JavaScript");
+    Todo todo = new Todo("Taste JavaScript");
 
     assertNotNull(todo.getId(), "Id is set");
     assertEquals("Taste JavaScript", todo.getTitle(), "Title is set");

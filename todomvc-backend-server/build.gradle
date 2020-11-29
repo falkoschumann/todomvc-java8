@@ -1,0 +1,12 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    implementation project(':todomvc-backend')
+    implementation 'org.apache.meecrowave:meecrowave-core:1.2.10'
+    implementation 'commons-cli:commons-cli:1.4'
+    testImplementation 'org.apache.meecrowave:meecrowave-junit:1.2.10'
+}
+
+mainClassName = 'de.muspellheim.todomvc.backend.server.App'
