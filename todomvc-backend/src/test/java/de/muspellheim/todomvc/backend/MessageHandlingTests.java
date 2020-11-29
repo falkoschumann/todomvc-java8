@@ -129,7 +129,7 @@ public class MessageHandlingTests {
   }
 
   @Test
-  void handleClearCommand() {
+  void handleClearCompletedCommand() {
     var repository = new TodoMemoryRepository();
     repository.store(
         Arrays.asList(

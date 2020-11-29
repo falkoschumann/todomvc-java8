@@ -17,7 +17,6 @@ import de.muspellheim.todomvc.contract.messages.commands.ToggleAllCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQueryResult;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -37,7 +36,7 @@ public class MessageHandling {
       todos.add(new Todo(command.getTitle()));
       repository.store(todos);
       return new Success();
-    } catch (IOException e) {
+    } catch (Exception e) {
       return new Failure(e.getLocalizedMessage());
     }
   }
@@ -55,7 +54,7 @@ public class MessageHandling {
               .collect(Collectors.toList());
       repository.store(todos);
       return new Success();
-    } catch (IOException e) {
+    } catch (Exception e) {
       return new Failure(e.getLocalizedMessage());
     }
   }
@@ -68,7 +67,7 @@ public class MessageHandling {
               .collect(Collectors.toList());
       repository.store(todos);
       return new Success();
-    } catch (IOException e) {
+    } catch (Exception e) {
       return new Failure(e.getLocalizedMessage());
     }
   }
@@ -86,7 +85,7 @@ public class MessageHandling {
               .collect(Collectors.toList());
       repository.store(todos);
       return new Success();
-    } catch (IOException e) {
+    } catch (Exception e) {
       return new Failure(e.getLocalizedMessage());
     }
   }
@@ -99,7 +98,7 @@ public class MessageHandling {
               .collect(Collectors.toList());
       repository.store(todos);
       return new Success();
-    } catch (IOException e) {
+    } catch (Exception e) {
       return new Failure(e.getLocalizedMessage());
     }
   }
@@ -110,7 +109,7 @@ public class MessageHandling {
           repository.load().stream().filter(it -> !it.isCompleted()).collect(Collectors.toList());
       repository.store(todos);
       return new Success();
-    } catch (IOException e) {
+    } catch (Exception e) {
       return new Failure(e.getLocalizedMessage());
     }
   }
@@ -119,7 +118,7 @@ public class MessageHandling {
     try {
       var todos = repository.load();
       return new TodosQueryResult(todos);
-    } catch (IOException e) {
+    } catch (Exception e) {
       System.err.println(e);
       return new TodosQueryResult(Collections.emptyList());
     }

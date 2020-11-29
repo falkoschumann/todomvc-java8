@@ -6,11 +6,10 @@
 package de.muspellheim.todomvc.backend;
 
 import de.muspellheim.todomvc.contract.data.Todo;
-import java.io.IOException;
 import java.util.List;
 
 public interface TodoRepository {
-  List<Todo> load() throws IOException;
+  List<Todo> load() throws Exception;
 
-  void store(List<Todo> todos) throws IOException;
+  void store(List<Todo> todos) throws Exception;
 }
