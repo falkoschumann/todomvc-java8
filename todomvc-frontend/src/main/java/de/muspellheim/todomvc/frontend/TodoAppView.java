@@ -39,7 +39,6 @@ import lombok.Setter;
 import lombok.var;
 
 public class TodoAppView extends VBox {
-
   @Getter @Setter private Consumer<NewTodoCommand> onNewTodoCommand;
   @Getter @Setter private Consumer<ToggleAllCommand> onToggleAllCommand;
   @Getter @Setter private Consumer<ToggleCommand> onToggleCommand;

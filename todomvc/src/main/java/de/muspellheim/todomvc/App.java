@@ -5,15 +5,9 @@
 
 package de.muspellheim.todomvc;
 
+import de.muspellheim.todomvc.backend.MessageHandling;
 import de.muspellheim.todomvc.backend.TodoRepository;
 import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
-import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandler;
-import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
-import de.muspellheim.todomvc.backend.messagehandlers.EditCommandHandler;
-import de.muspellheim.todomvc.backend.messagehandlers.NewTodoCommandHandler;
-import de.muspellheim.todomvc.backend.messagehandlers.TodosQueryHandler;
-import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
-import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
 import de.muspellheim.todomvc.frontend.TodoAppView;
 import java.nio.file.Paths;
@@ -23,13 +17,7 @@ import javafx.stage.Stage;
 import lombok.var;
 
 public class App extends Application {
-  private NewTodoCommandHandler newTodoCommandHandler;
-  private ToggleCommandHandler toggleCommandHandler;
-  private ToggleAllCommandHandler toggleAllCommandHandler;
-  private EditCommandHandler editCommandHandler;
-  private DestroyCommandHandler destroyCommandHandler;
-  private ClearCompletedCommandHandler clearCompletedCommandHandler;
-  private TodosQueryHandler todoListQueryHandler;
+  private MessageHandling messageHandling;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -38,13 +26,7 @@ public class App extends Application {
   @Override
   public void init() {
     TodoRepository repository = createTodoRepository();
-    newTodoCommandHandler = new NewTodoCommandHandler(repository);
-    toggleCommandHandler = new ToggleCommandHandler(repository);
-    toggleAllCommandHandler = new ToggleAllCommandHandler(repository);
-    editCommandHandler = new EditCommandHandler(repository);
-    destroyCommandHandler = new DestroyCommandHandler(repository);
-    clearCompletedCommandHandler = new ClearCompletedCommandHandler(repository);
-    todoListQueryHandler = new TodosQueryHandler(repository);
+    messageHandling = new MessageHandling(repository);
   }
 
   protected TodoRepository createTodoRepository() {
@@ -57,47 +39,47 @@ public class App extends Application {
     var view = new TodoAppView();
     view.setOnNewTodoCommand(
         it -> {
-          newTodoCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodosQuery());
+          messageHandling.handle(it);
+          var result = messageHandling.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnToggleCommand(
         it -> {
-          toggleCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodosQuery());
+          messageHandling.handle(it);
+          var result = messageHandling.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnToggleAllCommand(
         it -> {
-          toggleAllCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodosQuery());
+          messageHandling.handle(it);
+          var result = messageHandling.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnEditCommand(
         it -> {
-          editCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodosQuery());
+          messageHandling.handle(it);
+          var result = messageHandling.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnDestroyCommand(
         it -> {
-          destroyCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodosQuery());
+          messageHandling.handle(it);
+          var result = messageHandling.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnClearCompletedCommand(
         it -> {
-          clearCompletedCommandHandler.handle(it);
-          var result = todoListQueryHandler.handle(new TodosQuery());
+          messageHandling.handle(it);
+          var result = messageHandling.handle(new TodosQuery());
           view.display(result);
         });
     view.setOnTodoListQuery(
         it -> {
-          var result = todoListQueryHandler.handle(new TodosQuery());
+          var result = messageHandling.handle(new TodosQuery());
           view.display(result);
         });
 
-    var result = todoListQueryHandler.handle(new TodosQuery());
+    var result = messageHandling.handle(new TodosQuery());
     view.display(result);
 
     Scene scene = new Scene(view);
