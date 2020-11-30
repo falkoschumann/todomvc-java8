@@ -38,6 +38,8 @@ import org.junit.jupiter.api.Test;
 
 @MeecrowaveConfig
 public class BackendControllerTests {
+  // TODO Fehlerbehandlung: Command oder Query fehlerhaft oder fehlt ganz
+
   @ConfigurationInject private Meecrowave.Builder config;
 
   private TodoRepository repository;

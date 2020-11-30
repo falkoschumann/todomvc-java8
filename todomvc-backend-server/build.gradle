@@ -1,12 +1,22 @@
 plugins {
     id 'application'
+    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.1.5"
 }
 
 dependencies {
     implementation project(':todomvc-backend')
     implementation 'org.apache.meecrowave:meecrowave-core:1.2.10'
     implementation 'commons-cli:commons-cli:1.4'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.1.5'
     testImplementation 'org.apache.meecrowave:meecrowave-junit:1.2.10'
 }
 
 mainClassName = 'de.muspellheim.todomvc.backend.server.App'
+
+resolve {
+    classpath = sourceSets.main.runtimeClasspath
+    resourcePackages = ['de.muspellheim.todomvc.backend.server']
+    outputDir = file 'build/openapi'
+    outputFileName = 'todomvc'
+    prettyPrint = true
+}
