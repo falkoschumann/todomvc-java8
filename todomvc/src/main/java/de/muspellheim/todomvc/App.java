@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import lombok.var;
 
 public class App extends Application {
+  // TODO App nach Frontend verschieben, hier nur main-Methode behalten
+
   private MessageHandling messageHandling;
 
   public static void main(String[] args) {

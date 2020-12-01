@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'com.diffplug.spotless'
+    id 'io.freefair.lombok'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+        licenseHeaderFile('config/LicenseHeader.txt')
+    }
+}
