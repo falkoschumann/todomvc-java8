@@ -5,13 +5,13 @@ plugins {
 
 dependencies {
     implementation project(':todomvc-backend')
+    implementation 'io.swagger.core.v3:swagger-annotations:2.1.5'
     implementation 'org.apache.meecrowave:meecrowave-core:1.2.10'
     implementation 'commons-cli:commons-cli:1.4'
-    implementation 'io.swagger.core.v3:swagger-annotations:2.1.5'
     testImplementation 'org.apache.meecrowave:meecrowave-junit:1.2.10'
 }
 
-mainClassName = 'de.muspellheim.todomvc.backend.server.App'
+mainClassName = 'org.apache.meecrowave.runner.Cli'
 
 resolve {
     classpath = sourceSets.main.runtimeClasspath

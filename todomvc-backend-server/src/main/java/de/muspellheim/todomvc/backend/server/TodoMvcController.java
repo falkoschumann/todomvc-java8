@@ -6,6 +6,7 @@
 package de.muspellheim.todomvc.backend.server;
 
 import de.muspellheim.todomvc.backend.MessageHandling;
+import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
 import de.muspellheim.todomvc.contract.messages.commands.EditCommand;
@@ -19,8 +20,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.nio.file.Paths;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -29,8 +32,14 @@ import lombok.var;
 
 @Path("/")
 @ApplicationScoped
-public class BackendController {
+public class TodoMvcController {
   static MessageHandling messageHandling;
+
+  static {
+    var file = Paths.get("todos.json");
+    var repository = new TodoJsonRepository(file);
+    messageHandling = new MessageHandling(repository);
+  }
 
   @Path("newtodocommand")
   @POST
@@ -135,7 +144,7 @@ public class BackendController {
   }
 
   @Path("todosquery")
-  @POST
+  @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Operation(summary = "Gibt die To-Do-Liste zurück.")
@@ -146,7 +155,7 @@ public class BackendController {
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = TodosQueryResult.class)))
-  public TodosQueryResult handleTodosQuery(TodosQuery query) {
-    return messageHandling.handle(query);
+  public TodosQueryResult handleTodosQuery() {
+    return messageHandling.handle(new TodosQuery());
   }
 }

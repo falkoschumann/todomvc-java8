@@ -37,7 +37,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @MeecrowaveConfig
-public class BackendControllerTests {
+public class TodoMvcControllerTests {
   // TODO Fehlerbehandlung: Command oder Query fehlerhaft oder fehlt ganz
 
   @ConfigurationInject private Meecrowave.Builder config;
@@ -51,7 +51,7 @@ public class BackendControllerTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    BackendController.messageHandling = new MessageHandling(repository);
+    TodoMvcController.messageHandling = new MessageHandling(repository);
   }
 
   @Test
@@ -223,7 +223,7 @@ public class BackendControllerTests {
               .target("http://localhost:" + config.getHttpPort())
               .path("api/todosquery")
               .request()
-              .post(Entity.entity(query, MediaType.APPLICATION_JSON));
+              .get();
 
       assertEquals(Status.OK.getStatusCode(), response.getStatus());
       assertEquals(
