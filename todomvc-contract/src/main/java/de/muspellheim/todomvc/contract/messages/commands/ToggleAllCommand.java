@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ToggleAllCommand {
-  boolean completed;
+  Boolean completed;
 }

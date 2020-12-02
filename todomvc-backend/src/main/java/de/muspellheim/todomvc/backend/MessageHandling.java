@@ -63,7 +63,7 @@ public class MessageHandling {
     try {
       var todos =
           repository.load().stream()
-              .peek(it -> it.setCompleted(command.isCompleted()))
+              .peek(it -> it.setCompleted(command.getCompleted()))
               .collect(Collectors.toList());
       repository.store(todos);
       return new Success();

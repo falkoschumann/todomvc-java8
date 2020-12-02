@@ -10,8 +10,10 @@ import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
 import de.muspellheim.todomvc.contract.messages.commands.EditCommand;
+import de.muspellheim.todomvc.contract.messages.commands.Failure;
 import de.muspellheim.todomvc.contract.messages.commands.HttpCommandStatus;
 import de.muspellheim.todomvc.contract.messages.commands.NewTodoCommand;
+import de.muspellheim.todomvc.contract.messages.commands.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleAllCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
@@ -28,6 +30,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import lombok.var;
 
 @Path("/")
@@ -48,14 +52,32 @@ public class TodoMvcController {
   @Operation(summary = "Legt ein neues To-Do in der Liste an.")
   @ApiResponse(
       responseCode = "200",
-      description = "Status der Ausführung des Commands.",
+      description = "Das Command wurde erfolgreich ausgeführt.",
       content =
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = HttpCommandStatus.class)))
-  public HttpCommandStatus handleNewTodoCommand(NewTodoCommand command) {
+  @ApiResponse(
+      responseCode = "400",
+      description = "Das Command wurde nicht ausgeführt, weil es fehlerhaft formuliert war.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Beim Ausführen des Commands ist ein Fehler aufgetreten.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  public Response handleNewTodoCommand(NewTodoCommand command) {
+    if (command.getTitle() == null) {
+      return badRequest("Missing property `title` in new todo command.");
+    }
+
     var status = messageHandling.handle(command);
-    return new HttpCommandStatus(status);
+    return checkCommandStatus(status);
   }
 
   @Path("togglecommand")
@@ -65,14 +87,32 @@ public class TodoMvcController {
   @Operation(summary = "Schaltet den Erledigt-Zustand eines To-Do in der Liste um.")
   @ApiResponse(
       responseCode = "200",
-      description = "Status der Ausführung des Commands.",
+      description = "Das Command wurde erfolgreich ausgeführt.",
       content =
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = HttpCommandStatus.class)))
-  public HttpCommandStatus handleToggleCommand(ToggleCommand command) {
+  @ApiResponse(
+      responseCode = "400",
+      description = "Das Command wurde nicht ausgeführt, weil es fehlerhaft formuliert war.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Beim Ausführen des Commands ist ein Fehler aufgetreten.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  public Response handleToggleCommand(ToggleCommand command) {
+    if (command.getId() == null) {
+      return badRequest("Missing property `id` in toggle command.");
+    }
+
     var status = messageHandling.handle(command);
-    return new HttpCommandStatus(status);
+    return checkCommandStatus(status);
   }
 
   @Path("toggleallcommand")
@@ -82,14 +122,32 @@ public class TodoMvcController {
   @Operation(summary = "Setzt den Erledigt-Zustand aller To-Do's in derListe.")
   @ApiResponse(
       responseCode = "200",
-      description = "Status der Ausführung des Commands.",
+      description = "Das Command wurde erfolgreich ausgeführt.",
       content =
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = HttpCommandStatus.class)))
-  public HttpCommandStatus handleToggleAllCommand(ToggleAllCommand command) {
+  @ApiResponse(
+      responseCode = "400",
+      description = "Das Command wurde nicht ausgeführt, weil es fehlerhaft formuliert war.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Beim Ausführen des Commands ist ein Fehler aufgetreten.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  public Response handleToggleAllCommand(ToggleAllCommand command) {
+    if (command.getCompleted() == null) {
+      return badRequest("Missing property `completed` in toggle all command.");
+    }
+
     var status = messageHandling.handle(command);
-    return new HttpCommandStatus(status);
+    return checkCommandStatus(status);
   }
 
   @Path("editcommand")
@@ -99,14 +157,35 @@ public class TodoMvcController {
   @Operation(summary = "Ändert ein To-Do in der Liste.")
   @ApiResponse(
       responseCode = "200",
-      description = "Status der Ausführung des Commands.",
+      description = "Das Command wurde erfolgreich ausgeführt.",
       content =
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = HttpCommandStatus.class)))
-  public HttpCommandStatus handleEditCommand(EditCommand command) {
+  @ApiResponse(
+      responseCode = "400",
+      description = "Das Command wurde nicht ausgeführt, weil es fehlerhaft formuliert war.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Beim Ausführen des Commands ist ein Fehler aufgetreten.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  public Response handleEditCommand(EditCommand command) {
+    if (command.getId() == null) {
+      return badRequest("Missing property `id` in edit command.");
+    }
+    if (command.getTitle() == null) {
+      return badRequest("Missing property `title` in edit command.");
+    }
+
     var status = messageHandling.handle(command);
-    return new HttpCommandStatus(status);
+    return checkCommandStatus(status);
   }
 
   @Path("destroycommand")
@@ -116,14 +195,32 @@ public class TodoMvcController {
   @Operation(summary = "Entfernt ein To-Do aus der Liste.")
   @ApiResponse(
       responseCode = "200",
-      description = "Status der Ausführung des Commands.",
+      description = "Das Command wurde erfolgreich ausgeführt.",
       content =
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = HttpCommandStatus.class)))
-  public HttpCommandStatus handleDestroyCommand(DestroyCommand command) {
+  @ApiResponse(
+      responseCode = "400",
+      description = "Das Command wurde nicht ausgeführt, weil es fehlerhaft formuliert war.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Beim Ausführen des Commands ist ein Fehler aufgetreten.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  public Response handleDestroyCommand(DestroyCommand command) {
+    if (command.getId() == null) {
+      return badRequest("Missing property `id` in edit command.");
+    }
+
     var status = messageHandling.handle(command);
-    return new HttpCommandStatus(status);
+    return checkCommandStatus(status);
   }
 
   @Path("clearcompletedcommand")
@@ -133,14 +230,28 @@ public class TodoMvcController {
   @Operation(summary = "Entfernt alle erledigten To-Do's aus der Liste.")
   @ApiResponse(
       responseCode = "200",
-      description = "Status der Ausführung des Commands.",
+      description = "Das Command wurde erfolgreich ausgeführt.",
       content =
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = HttpCommandStatus.class)))
-  public HttpCommandStatus handleClearCompletedCommand(ClearCompletedCommand command) {
+  @ApiResponse(
+      responseCode = "400",
+      description = "Das Command wurde nicht ausgeführt, weil es fehlerhaft formuliert war.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Beim Ausführen des Commands ist ein Fehler aufgetreten.",
+      content =
+          @Content(
+              mediaType = MediaType.APPLICATION_JSON,
+              schema = @Schema(implementation = HttpCommandStatus.class)))
+  public Response handleClearCompletedCommand(ClearCompletedCommand command) {
     var status = messageHandling.handle(command);
-    return new HttpCommandStatus(status);
+    return checkCommandStatus(status);
   }
 
   @Path("todosquery")
@@ -150,12 +261,30 @@ public class TodoMvcController {
   @Operation(summary = "Gibt die To-Do-Liste zurück.")
   @ApiResponse(
       responseCode = "200",
-      description = "Ergebnis der Query.",
+      description = "Das Ergebnis der Query.",
       content =
           @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = TodosQueryResult.class)))
   public TodosQueryResult handleTodosQuery() {
     return messageHandling.handle(new TodosQuery());
+  }
+
+  private Response badRequest(String errorMessage) {
+    return Response.status(Status.BAD_REQUEST)
+        .entity(new HttpCommandStatus(new Failure(errorMessage)))
+        .build();
+  }
+
+  private Response checkCommandStatus(
+      de.muspellheim.todomvc.contract.messages.commands.CommandStatus status) {
+    if (status instanceof Success) {
+      return Response.ok().entity(new HttpCommandStatus(new Success())).build();
+    } else {
+      var failure = (Failure) status;
+      return Response.status(Status.INTERNAL_SERVER_ERROR)
+          .entity(new HttpCommandStatus(new Failure(failure.getErrorMessage())))
+          .build();
+    }
   }
 }
