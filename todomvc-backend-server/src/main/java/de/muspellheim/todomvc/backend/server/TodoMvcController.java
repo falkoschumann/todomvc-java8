@@ -5,8 +5,15 @@
 
 package de.muspellheim.todomvc.backend.server;
 
-import de.muspellheim.todomvc.backend.MessageHandlingImpl;
 import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
+import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.EditCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.NewTodoCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.TodosQueryHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
+import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
+import de.muspellheim.todomvc.contract.TodoRepository;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
 import de.muspellheim.todomvc.contract.messages.commands.EditCommand;
@@ -37,12 +44,11 @@ import lombok.var;
 @Path("/")
 @ApplicationScoped
 public class TodoMvcController {
-  static MessageHandlingImpl messageHandling;
+  static TodoRepository repository;
 
   static {
     var file = Paths.get("todos.json");
-    var repository = new TodoJsonRepository(file);
-    messageHandling = new MessageHandlingImpl(repository);
+    repository = new TodoJsonRepository(file);
   }
 
   @Path("newtodocommand")
@@ -76,7 +82,8 @@ public class TodoMvcController {
       return badRequest("Missing property `title` in new todo command.");
     }
 
-    var status = messageHandling.handle(command);
+    NewTodoCommandHandler handler = new NewTodoCommandHandler(repository);
+    var status = handler.handle(command);
     return checkCommandStatus(status);
   }
 
@@ -111,7 +118,8 @@ public class TodoMvcController {
       return badRequest("Missing property `id` in toggle command.");
     }
 
-    var status = messageHandling.handle(command);
+    ToggleCommandHandler handler = new ToggleCommandHandler(repository);
+    var status = handler.handle(command);
     return checkCommandStatus(status);
   }
 
@@ -146,7 +154,8 @@ public class TodoMvcController {
       return badRequest("Missing property `completed` in toggle all command.");
     }
 
-    var status = messageHandling.handle(command);
+    ToggleAllCommandHandler handler = new ToggleAllCommandHandler(repository);
+    var status = handler.handle(command);
     return checkCommandStatus(status);
   }
 
@@ -184,7 +193,8 @@ public class TodoMvcController {
       return badRequest("Missing property `title` in edit command.");
     }
 
-    var status = messageHandling.handle(command);
+    EditCommandHandler handler = new EditCommandHandler(repository);
+    var status = handler.handle(command);
     return checkCommandStatus(status);
   }
 
@@ -219,7 +229,8 @@ public class TodoMvcController {
       return badRequest("Missing property `id` in edit command.");
     }
 
-    var status = messageHandling.handle(command);
+    DestroyCommandHandler handler = new DestroyCommandHandler(repository);
+    var status = handler.handle(command);
     return checkCommandStatus(status);
   }
 
@@ -250,7 +261,8 @@ public class TodoMvcController {
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = HttpCommandStatus.class)))
   public Response handleClearCompletedCommand(ClearCompletedCommand command) {
-    var status = messageHandling.handle(command);
+    ClearCompletedCommandHandler handler = new ClearCompletedCommandHandler(repository);
+    var status = handler.handle(command);
     return checkCommandStatus(status);
   }
 
@@ -267,7 +279,8 @@ public class TodoMvcController {
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = TodosQueryResult.class)))
   public TodosQueryResult handleTodosQuery() {
-    return messageHandling.handle(new TodosQuery());
+    TodosQueryHandler handler = new TodosQueryHandler(repository);
+    return handler.handle(new TodosQuery());
   }
 
   private Response badRequest(String errorMessage) {

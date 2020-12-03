@@ -45,7 +45,7 @@ public class TodoAppView extends VBox {
   @Getter @Setter private Consumer<EditCommand> onEditCommand;
   @Getter @Setter private Consumer<DestroyCommand> onDestroyCommand;
   @Getter @Setter private Consumer<ClearCompletedCommand> onClearCompletedCommand;
-  @Getter @Setter private Consumer<TodosQuery> onTodoListQuery;
+  @Getter @Setter private Consumer<TodosQuery> onTodosQuery;
 
   private final CheckBox toggleAll;
 
@@ -153,6 +153,10 @@ public class TodoAppView extends VBox {
     setStyle("-fx-font-family: Verdana Arial sans-serif;");
     setPrefSize(500, 400);
     getChildren().addAll(header, todoList, footer, info);
+  }
+
+  public void run() {
+    onTodosQuery.accept(new TodosQuery());
   }
 
   public void display(@NonNull TodosQueryResult result) {

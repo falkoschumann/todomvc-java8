@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import de.muspellheim.todomvc.backend.MessageHandlingImpl;
 import de.muspellheim.todomvc.backend.adapters.TodoMemoryRepository;
 import de.muspellheim.todomvc.contract.TodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
@@ -48,7 +47,7 @@ public class TodoMvcControllerTests {
   void setUp() throws Exception {
     repository = new TodoMemoryRepository();
     repository.store(createTodos());
-    TodoMvcController.messageHandling = new MessageHandlingImpl(repository);
+    TodoMvcController.repository = repository;
   }
 
   @Test
