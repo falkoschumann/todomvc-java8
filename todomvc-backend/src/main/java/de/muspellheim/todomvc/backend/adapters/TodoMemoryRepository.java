@@ -5,7 +5,7 @@
 
 package de.muspellheim.todomvc.backend.adapters;
 
-import de.muspellheim.todomvc.backend.TodoRepository;
+import de.muspellheim.todomvc.contract.TodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
 import java.util.Collections;
 import java.util.List;

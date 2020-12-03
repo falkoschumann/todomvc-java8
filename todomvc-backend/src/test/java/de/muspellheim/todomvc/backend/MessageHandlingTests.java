@@ -33,7 +33,7 @@ public class MessageHandlingTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    var handler = new MessageHandling(repository);
+    var handler = new MessageHandlingImpl(repository);
     var command = new NewTodoCommand("Foobar");
 
     var result = handler.handle(command);
@@ -52,7 +52,7 @@ public class MessageHandlingTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    var handler = new MessageHandling(repository);
+    var handler = new MessageHandlingImpl(repository);
     var command = new ToggleCommand("d2f7760d-8f03-4cb3-9176-06311cb89993");
 
     var result = handler.handle(command);
@@ -73,7 +73,7 @@ public class MessageHandlingTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    var handler = new MessageHandling(repository);
+    var handler = new MessageHandlingImpl(repository);
     var command = new ToggleAllCommand(true);
 
     var result = handler.handle(command);
@@ -94,7 +94,7 @@ public class MessageHandlingTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    var handler = new MessageHandling(repository);
+    var handler = new MessageHandlingImpl(repository);
     var command = new EditCommand("d2f7760d-8f03-4cb3-9176-06311cb89993", "Foobar");
 
     var result = handler.handle(command);
@@ -115,7 +115,7 @@ public class MessageHandlingTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    var handler = new MessageHandling(repository);
+    var handler = new MessageHandlingImpl(repository);
     var command = new DestroyCommand("119e6785-8ffc-42e0-8df6-dbc64881f2b7");
 
     var result = handler.handle(command);
@@ -135,7 +135,7 @@ public class MessageHandlingTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    var handler = new MessageHandling(repository);
+    var handler = new MessageHandlingImpl(repository);
     var command = new ClearCompletedCommand();
 
     var result = handler.handle(command);
@@ -155,7 +155,7 @@ public class MessageHandlingTests {
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
             new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
-    var handler = new MessageHandling(repository);
+    var handler = new MessageHandlingImpl(repository);
     var query = new TodosQuery();
 
     var result = handler.handle(query);

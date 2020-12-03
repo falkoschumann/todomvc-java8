@@ -5,7 +5,7 @@
 
 package de.muspellheim.todomvc.backend.server;
 
-import de.muspellheim.todomvc.backend.MessageHandling;
+import de.muspellheim.todomvc.backend.MessageHandlingImpl;
 import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
@@ -37,12 +37,12 @@ import lombok.var;
 @Path("/")
 @ApplicationScoped
 public class TodoMvcController {
-  static MessageHandling messageHandling;
+  static MessageHandlingImpl messageHandling;
 
   static {
     var file = Paths.get("todos.json");
     var repository = new TodoJsonRepository(file);
-    messageHandling = new MessageHandling(repository);
+    messageHandling = new MessageHandlingImpl(repository);
   }
 
   @Path("newtodocommand")

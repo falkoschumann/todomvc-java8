@@ -5,6 +5,8 @@
 
 package de.muspellheim.todomvc.backend;
 
+import de.muspellheim.todomvc.contract.MessageHandling;
+import de.muspellheim.todomvc.contract.TodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.CommandStatus;
@@ -23,10 +25,10 @@ import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.var;
 
-public class MessageHandling {
+public class MessageHandlingImpl implements MessageHandling {
   private final TodoRepository repository;
 
-  public MessageHandling(TodoRepository repository) {
+  public MessageHandlingImpl(TodoRepository repository) {
     this.repository = repository;
   }
 
@@ -119,7 +121,7 @@ public class MessageHandling {
       var todos = repository.load();
       return new TodosQueryResult(todos);
     } catch (Exception e) {
-      System.err.println(e);
+      e.printStackTrace();
       return new TodosQueryResult(Collections.emptyList());
     }
   }

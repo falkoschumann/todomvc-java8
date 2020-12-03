@@ -8,7 +8,7 @@ package de.muspellheim.todomvc.backend.adapters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import de.muspellheim.todomvc.backend.TodoRepository;
+import de.muspellheim.todomvc.contract.TodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
