@@ -29,6 +29,7 @@ import java.util.List;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import lombok.var;
 import org.apache.meecrowave.Meecrowave;
@@ -314,16 +315,13 @@ public class TodoMvcControllerTests {
   void handleTodosQuery() {
     var client = ClientBuilder.newClient();
     try {
-      var response =
-          client
-              .target("http://localhost:" + config.getHttpPort())
-              .path("api/todosquery")
-              .request()
-              .get();
+      var result =
+          createWebTarget()
+              .path("todosquery")
+              .request(MediaType.APPLICATION_JSON_TYPE)
+              .get(TodosQueryResult.class);
 
-      assertEquals(Status.OK.getStatusCode(), response.getStatus());
-      assertEquals(
-          new TodosQueryResult(createTodos()), response.readEntity(TodosQueryResult.class));
+      assertEquals(new TodosQueryResult(createTodos()), result);
     } finally {
       client.close();
     }
