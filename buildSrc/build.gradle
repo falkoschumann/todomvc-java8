@@ -5,3 +5,12 @@ plugins {
 repositories {
     gradlePluginPortal()
 }
+
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'todomvc.uber-jar-application'
+            implementationClass = 'de.muspellheim.todomvc.build.UberJarApplicationPlugin'
+        }
+    }
+}
