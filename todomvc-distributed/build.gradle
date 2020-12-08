@@ -1,6 +1,5 @@
 plugins {
-    id 'todomvc.java-library-conventions'
-    id 'distribution'
+    id 'todomvc.java-application-uberjar-conventions'
 }
 
 dependencies {
@@ -9,42 +8,6 @@ dependencies {
     implementation 'org.apache.johnzon:johnzon-jsonb:1.2.8';
 }
 
-ext.mainClassName = 'de.muspellheim.todomvc.distributed.App'
-
-task run(type: JavaExec) {
-    group = 'application'
-    main = mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task uberJar(type: Jar) {
-    group = 'distribution'
-    archiveClassifier = 'uber'
-    manifest {
-        attributes(
-                'Implementation-Title': 'TodoMVC',
-                'Implementation-Version': archiveVersion,
-                'Implementation-Vendor': 'Falko Schumann <falko.schumann@muspellheim.de>',
-                'Main-Class': mainClassName
-        )
-    }
-    from sourceSets.main.output
-    dependsOn configurations.runtimeClasspath
-    from {
-        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
-    }
-}
-
-distributions {
-    main {
-        contents {
-            from(uberJar)
-            from(rootDir) {
-                include 'README.md'
-                include 'LICENSE.txt'
-                include 'CHANGELOG.md'
-                rename 'md', 'txt'
-            }
-        }
-    }
+application {
+    mainClassName = 'de.muspellheim.todomvc.distributed.App'
 }

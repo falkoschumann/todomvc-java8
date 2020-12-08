@@ -9,8 +9,8 @@ repositories {
 gradlePlugin {
     plugins {
         simplePlugin {
-            id = 'todomvc.uber-jar-application'
-            implementationClass = 'UberJarApplicationPlugin'
+            id = 'todomvc.java-application-uberjar-conventions'
+            implementationClass = 'ApplicationUberJarPlugin'
         }
     }
 }

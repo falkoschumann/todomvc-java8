@@ -1,25 +1,21 @@
-
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.distribution.Distribution
 import org.gradle.api.distribution.plugins.DistributionPlugin
-import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.bundling.Jar
 
-class UberJarApplicationPluginExtension {
+class ApplicationUberJarPluginExtension {
     String mainClassName
 }
 
-class UberJarApplicationPlugin implements Plugin<Project> {
+class ApplicationUberJarPlugin implements Plugin<Project> {
     void apply(Project project) {
         project.pluginManager.apply('todomvc.java-common-conventions')
-        project.pluginManager.apply(JavaLibraryPlugin)
-        project.pluginManager.apply(DistributionPlugin)
+        project.pluginManager.apply('distribution')
 
-        def extension = project.extensions.create('application', UberJarApplicationPluginExtension)
+        def extension = project.extensions.create('application', ApplicationUberJarPluginExtension)
         project.tasks.register('run', JavaExec) {
             group = 'application'
             main = extension.mainClassName

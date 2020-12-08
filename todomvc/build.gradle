@@ -1,5 +1,5 @@
 plugins {
-    id 'todomvc.uber-jar-application'
+    id 'todomvc.java-application-uberjar-conventions'
 }
 
 dependencies {
