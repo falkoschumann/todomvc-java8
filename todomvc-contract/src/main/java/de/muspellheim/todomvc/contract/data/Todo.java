@@ -22,4 +22,8 @@ public class Todo {
     this.id = UUID.randomUUID().toString();
     this.title = title;
   }
+
+  public final boolean isActive() {
+    return !completed;
+  }
 }

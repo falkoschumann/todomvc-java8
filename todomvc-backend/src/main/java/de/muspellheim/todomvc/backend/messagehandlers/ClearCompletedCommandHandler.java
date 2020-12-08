@@ -6,6 +6,7 @@
 package de.muspellheim.todomvc.backend.messagehandlers;
 
 import de.muspellheim.todomvc.contract.TodoRepository;
+import de.muspellheim.todomvc.contract.data.Todo;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.CommandStatus;
 import de.muspellheim.todomvc.contract.messages.commands.Failure;
@@ -23,8 +24,7 @@ public class ClearCompletedCommandHandler {
 
   public CommandStatus handle(@NonNull ClearCompletedCommand command) {
     try {
-      var todos =
-          repository.load().stream().filter(it -> !it.isCompleted()).collect(Collectors.toList());
+      var todos = repository.load().stream().filter(Todo::isActive).collect(Collectors.toList());
       repository.store(todos);
       return new Success();
     } catch (Exception e) {

@@ -190,7 +190,7 @@ public class TodoAppView extends VBox {
         todos.stream()
             .filter(
                 it ->
-                    filterGroup.getSelectedToggle() == activeFilter && !it.isCompleted()
+                    filterGroup.getSelectedToggle() == activeFilter && it.isActive()
                         || filterGroup.getSelectedToggle() == completedFilter && it.isCompleted()
                         || filterGroup.getSelectedToggle() == allFilter)
             .map(it -> new TodoModel(it, onToggleCommand, onEditCommand, onDestroyCommand))

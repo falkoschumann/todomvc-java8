@@ -28,7 +28,7 @@ public class ToggleCommandHandler {
               .peek(
                   it -> {
                     if (it.getId().equals(command.getId())) {
-                      it.setCompleted(!it.isCompleted());
+                      it.setCompleted(it.isActive());
                     }
                   })
               .collect(Collectors.toList());
