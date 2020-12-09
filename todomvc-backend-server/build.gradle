@@ -16,7 +16,8 @@ mainClassName = 'org.apache.meecrowave.runner.Cli'
 resolve {
     classpath = sourceSets.main.runtimeClasspath
     resourcePackages = ['de.muspellheim.todomvc.backend.server']
-    outputDir = file 'build/openapi'
-    outputFileName = 'todomvc'
+    outputDir = file 'build/resources/main/META-INF/resources'
+    outputFileName = 'todomvc-api'
     prettyPrint = true
 }
+classes.finalizedBy(resolve)
