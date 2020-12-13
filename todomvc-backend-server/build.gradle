@@ -20,4 +20,8 @@ resolve {
     outputFileName = 'todomvc-api'
     prettyPrint = true
 }
-classes.finalizedBy(resolve)
+processResources {
+    doLast {
+        resolve.resolve()
+    }
+}
