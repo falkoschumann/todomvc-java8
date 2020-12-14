@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import de.muspellheim.todomvc.backend.adapters.TodoMemoryRepository;
 import de.muspellheim.todomvc.contract.TodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
@@ -23,6 +24,7 @@ import de.muspellheim.todomvc.contract.messages.commands.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleAllCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQueryResult;
+import io.quarkus.test.junit.QuarkusTest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,16 +34,11 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import lombok.var;
-import org.apache.meecrowave.Meecrowave;
-import org.apache.meecrowave.junit5.MeecrowaveConfig;
-import org.apache.meecrowave.testing.ConfigurationInject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@MeecrowaveConfig
+@QuarkusTest
 public class TodoMvcControllerTests {
-  @ConfigurationInject private Meecrowave.Builder config;
-
   private TodoRepository repository;
 
   @BeforeEach
@@ -73,7 +70,7 @@ public class TodoMvcControllerTests {
 
   @Test
   void handleNewTodoCommandMissingTitleWithFailure() {
-    var command = new Object();
+    var command = new EmptyMessage();
 
     var response = createWebTarget().path("newtodocommand").request().post(Entity.json(command));
 
@@ -118,7 +115,7 @@ public class TodoMvcControllerTests {
   @Test
   void handleToggleCommand_MissingId_Error() {
     var response =
-        createWebTarget().path("togglecommand").request().post(Entity.json(new Object()));
+        createWebTarget().path("togglecommand").request().post(Entity.json(new EmptyMessage()));
 
     assertAll(
         "Handle toggle command missing id with failure",
@@ -160,7 +157,7 @@ public class TodoMvcControllerTests {
 
   @Test
   void handleToggleAllCommandMissingCompletedWithFailure() {
-    var command = new Object();
+    var command = new EmptyMessage();
 
     var response = createWebTarget().path("toggleallcommand").request().post(Entity.json(command));
 
@@ -269,7 +266,7 @@ public class TodoMvcControllerTests {
 
   @Test
   void handleDestroyCommandMissingIdWithFailure() {
-    var command = new Object();
+    var command = new EmptyMessage();
 
     var response = createWebTarget().path("destroycommand").request().post(Entity.json(command));
 
@@ -334,6 +331,10 @@ public class TodoMvcControllerTests {
   }
 
   private WebTarget createWebTarget() {
-    return ClientBuilder.newClient().target("http://localhost:" + config.getHttpPort()).path("api");
+    return ClientBuilder.newBuilder()
+        .register(JacksonJaxbJsonProvider.class)
+        .build()
+        .target("http://localhost:8081")
+        .path("api");
   }
 }

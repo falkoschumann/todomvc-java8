@@ -1,17 +1,23 @@
 plugins {
-    id 'todomvc.java-application-conventions'
+    id 'todomvc.java-common-conventions'
+    id 'io.quarkus' version '1.10.3.Final'
     id 'io.swagger.core.v3.swagger-gradle-plugin' version '2.1.5'
 }
 
 dependencies {
     implementation project(':todomvc-backend')
+    implementation enforcedPlatform('io.quarkus:quarkus-universe-bom:1.10.3.Final')
+    implementation 'io.quarkus:quarkus-rest-client'
+    implementation 'io.quarkus:quarkus-resteasy-jackson'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-resteasy'
     implementation 'io.swagger.core.v3:swagger-annotations:2.1.5'
-    implementation 'org.apache.meecrowave:meecrowave-core:1.2.10'
-    implementation 'commons-cli:commons-cli:1.4'
-    testImplementation 'org.apache.meecrowave:meecrowave-junit:1.2.10'
+    testImplementation 'io.quarkus:quarkus-junit5'
 }
 
-mainClassName = 'org.apache.meecrowave.runner.Cli'
+quarkusDev {
+    workingDir = projectDir
+}
 
 resolve {
     classpath = sourceSets.main.runtimeClasspath
@@ -20,6 +26,7 @@ resolve {
     outputFileName = 'todomvc-api'
     prettyPrint = true
 }
+
 processResources {
     doLast {
         resolve.resolve()

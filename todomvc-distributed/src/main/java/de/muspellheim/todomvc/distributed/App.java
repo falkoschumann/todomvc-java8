@@ -5,6 +5,7 @@
 
 package de.muspellheim.todomvc.distributed;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQueryResult;
 import de.muspellheim.todomvc.frontend.TodoAppView;
 import javafx.application.Application;
@@ -15,7 +16,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response.Status.Family;
 import lombok.var;
-import org.apache.johnzon.jaxrs.jsonb.jaxrs.JsonbJaxrsProvider;
 
 public class App extends Application {
   public static void main(String[] args) {
@@ -91,7 +91,6 @@ public class App extends Application {
           System.out.println(response.getHeaders());
           var result = response.readEntity(TodosQueryResult.class);
           frontend.display(result);
-          System.out.println(result);
         });
 
     frontend.run();
@@ -104,7 +103,7 @@ public class App extends Application {
 
   private WebTarget createWebTarget() {
     return ClientBuilder.newBuilder()
-        .register(new JsonbJaxrsProvider())
+        .register(JacksonJaxbJsonProvider.class)
         .build()
         .target("http://localhost:8080")
         .path("api");

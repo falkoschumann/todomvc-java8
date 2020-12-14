@@ -4,8 +4,9 @@ plugins {
 
 dependencies {
     implementation project(':todomvc-frontend')
-    implementation 'org.apache.cxf:cxf-rt-rs-client:3.4.1'
-    implementation 'org.apache.johnzon:johnzon-jsonb:1.2.8';
+    implementation enforcedPlatform('io.quarkus:quarkus-universe-bom:1.10.3.Final')
+    implementation 'io.quarkus:quarkus-rest-client'
+    implementation 'io.quarkus:quarkus-resteasy-jackson'
 }
 
 application {
