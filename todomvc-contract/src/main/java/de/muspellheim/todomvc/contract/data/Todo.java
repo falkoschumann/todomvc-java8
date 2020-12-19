@@ -10,13 +10,14 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Todo {
-  String id;
-  String title;
+  @NonNull String id;
+  @NonNull String title;
   boolean completed;
 
   public Todo(String title) {

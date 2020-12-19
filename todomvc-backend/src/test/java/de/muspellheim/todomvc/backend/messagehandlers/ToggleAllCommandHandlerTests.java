@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.muspellheim.todomvc.backend.adapters.TodoMemoryRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
-import de.muspellheim.todomvc.contract.messages.commands.Success;
+import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleAllCommand;
 import java.util.Arrays;
 import lombok.var;

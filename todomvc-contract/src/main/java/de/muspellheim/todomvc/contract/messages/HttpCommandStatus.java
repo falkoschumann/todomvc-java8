@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Falko Schumann <falko.schumann@muspellheim.de>
  */
 
-package de.muspellheim.todomvc.contract.messages.commands;
+package de.muspellheim.todomvc.contract.messages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -19,7 +19,9 @@ public class HttpCommandStatus {
 
   public HttpCommandStatus(CommandStatus status) {
     success = status instanceof Success;
-    if (!success) errorMessage = ((Failure) status).getErrorMessage();
+    if (!success) {
+      errorMessage = ((Failure) status).getErrorMessage();
+    }
   }
 
   public CommandStatus commandStatus() {

@@ -6,8 +6,9 @@
 package de.muspellheim.todomvc.contract.messages.queries;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.muspellheim.todomvc.contract.messages.Query;
 import lombok.Data;
 
 @Data
 @JsonSerialize
-public class TodosQuery {}
+public class TodosQuery implements Query {}

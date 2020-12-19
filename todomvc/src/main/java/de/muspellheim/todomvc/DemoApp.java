@@ -5,8 +5,8 @@
 
 package de.muspellheim.todomvc;
 
+import de.muspellheim.todomvc.backend.TodoRepository;
 import de.muspellheim.todomvc.backend.adapters.TodoMemoryRepository;
-import de.muspellheim.todomvc.contract.TodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
 import java.util.Arrays;
 import javafx.application.Application;

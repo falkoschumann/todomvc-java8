@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Falko Schumann <falko.schumann@muspellheim.de>
  */
 
-package de.muspellheim.todomvc.contract.messages.commands;
+package de.muspellheim.todomvc.contract.messages;
 
 import lombok.Value;
 

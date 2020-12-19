@@ -5,7 +5,7 @@
 
 package de.muspellheim.todomvc.backend.messagehandlers;
 
-import de.muspellheim.todomvc.contract.TodoRepository;
+import de.muspellheim.todomvc.backend.TodoRepository;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQueryResult;
 import java.util.Collections;

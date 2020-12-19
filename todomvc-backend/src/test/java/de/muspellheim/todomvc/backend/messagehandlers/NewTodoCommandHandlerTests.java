@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import de.muspellheim.todomvc.backend.adapters.TodoMemoryRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
+import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.NewTodoCommand;
-import de.muspellheim.todomvc.contract.messages.commands.Success;
 import java.util.Arrays;
 import lombok.var;
 import org.junit.jupiter.api.Test;

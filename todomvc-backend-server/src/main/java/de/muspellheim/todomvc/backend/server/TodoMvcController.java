@@ -5,6 +5,7 @@
 
 package de.muspellheim.todomvc.backend.server;
 
+import de.muspellheim.todomvc.backend.TodoRepository;
 import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
 import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
@@ -13,14 +14,14 @@ import de.muspellheim.todomvc.backend.messagehandlers.NewTodoCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.TodosQueryHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
-import de.muspellheim.todomvc.contract.TodoRepository;
+import de.muspellheim.todomvc.contract.messages.CommandStatus;
+import de.muspellheim.todomvc.contract.messages.Failure;
+import de.muspellheim.todomvc.contract.messages.HttpCommandStatus;
+import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
 import de.muspellheim.todomvc.contract.messages.commands.EditCommand;
-import de.muspellheim.todomvc.contract.messages.commands.Failure;
-import de.muspellheim.todomvc.contract.messages.commands.HttpCommandStatus;
 import de.muspellheim.todomvc.contract.messages.commands.NewTodoCommand;
-import de.muspellheim.todomvc.contract.messages.commands.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleAllCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
@@ -289,8 +290,7 @@ public class TodoMvcController {
         .build();
   }
 
-  private Response checkCommandStatus(
-      de.muspellheim.todomvc.contract.messages.commands.CommandStatus status) {
+  private Response checkCommandStatus(CommandStatus status) {
     if (status instanceof Success) {
       return Response.ok().entity(new HttpCommandStatus(new Success())).build();
     } else {

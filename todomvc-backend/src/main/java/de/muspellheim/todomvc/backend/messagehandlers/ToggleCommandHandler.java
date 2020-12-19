@@ -5,10 +5,10 @@
 
 package de.muspellheim.todomvc.backend.messagehandlers;
 
-import de.muspellheim.todomvc.contract.TodoRepository;
-import de.muspellheim.todomvc.contract.messages.commands.CommandStatus;
-import de.muspellheim.todomvc.contract.messages.commands.Failure;
-import de.muspellheim.todomvc.contract.messages.commands.Success;
+import de.muspellheim.todomvc.backend.TodoRepository;
+import de.muspellheim.todomvc.contract.messages.CommandStatus;
+import de.muspellheim.todomvc.contract.messages.Failure;
+import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import java.util.stream.Collectors;
 import lombok.NonNull;
