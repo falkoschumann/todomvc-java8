@@ -7,7 +7,7 @@ package de.muspellheim.todomvc.backend.messagehandlers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import de.muspellheim.todomvc.backend.adapters.TodoMemoryRepository;
+import de.muspellheim.todomvc.backend.adapters.TodoRepositoryMemory;
 import de.muspellheim.todomvc.contract.data.Todo;
 import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleAllCommand;
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 public class ToggleAllCommandHandlerTests {
   @Test
   void handleToggleAllCommand() {
-    var repository = new TodoMemoryRepository();
+    var repository = new TodoRepositoryMemory();
     repository.store(
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),

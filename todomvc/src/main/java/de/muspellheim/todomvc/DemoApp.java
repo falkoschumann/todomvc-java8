@@ -6,7 +6,7 @@
 package de.muspellheim.todomvc;
 
 import de.muspellheim.todomvc.backend.TodoRepository;
-import de.muspellheim.todomvc.backend.adapters.TodoMemoryRepository;
+import de.muspellheim.todomvc.backend.adapters.TodoRepositoryMemory;
 import de.muspellheim.todomvc.contract.data.Todo;
 import java.util.Arrays;
 import javafx.application.Application;
@@ -18,7 +18,7 @@ public class DemoApp extends App {
   }
 
   protected TodoRepository createRepository() {
-    var repository = new TodoMemoryRepository();
+    var repository = new TodoRepositoryMemory();
     repository.store(
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),

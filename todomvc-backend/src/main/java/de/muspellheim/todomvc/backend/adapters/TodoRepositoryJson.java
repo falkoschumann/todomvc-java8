@@ -21,11 +21,11 @@ import java.util.List;
 import lombok.NonNull;
 import lombok.var;
 
-public class TodoJsonRepository implements TodoRepository {
+public class TodoRepositoryJson implements TodoRepository {
   private static final Type LIST_TYPE = new TypeToken<List<Todo>>() {}.getType();
   private final Path file;
 
-  public TodoJsonRepository(Path file) {
+  public TodoRepositoryJson(Path file) {
     this.file = file;
   }
 

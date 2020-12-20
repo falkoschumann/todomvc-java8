@@ -17,13 +17,13 @@ import java.util.List;
 import lombok.var;
 import org.junit.jupiter.api.Test;
 
-public class TodoJsonRepositoryTests {
+public class TodoRepositoryJsonTests {
   private static final Path READ_TEST_FILE = Paths.get("src/test/resources/todos.json");
   private static final Path WRITTEN_TEST_FILE = Paths.get("build/test/todos.json");
 
   @Test
   void load() throws IOException {
-    var repository = new TodoJsonRepository(READ_TEST_FILE);
+    var repository = new TodoRepositoryJson(READ_TEST_FILE);
 
     var todos = repository.load();
 
@@ -33,7 +33,7 @@ public class TodoJsonRepositoryTests {
   @Test
   void store() throws IOException {
     Files.createDirectories(WRITTEN_TEST_FILE.getParent());
-    var repository = new TodoJsonRepository(WRITTEN_TEST_FILE);
+    var repository = new TodoRepositoryJson(WRITTEN_TEST_FILE);
     var todos = createTestData();
 
     repository.store(todos);

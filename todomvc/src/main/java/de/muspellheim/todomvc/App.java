@@ -6,7 +6,7 @@
 package de.muspellheim.todomvc;
 
 import de.muspellheim.todomvc.backend.TodoRepository;
-import de.muspellheim.todomvc.backend.adapters.TodoJsonRepository;
+import de.muspellheim.todomvc.backend.adapters.TodoRepositoryJson;
 import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.EditCommandHandler;
@@ -16,6 +16,7 @@ import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
 import de.muspellheim.todomvc.frontend.TodoAppView;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -92,6 +93,7 @@ public class App extends Application {
   }
 
   protected TodoRepository createRepository() {
-    return new TodoJsonRepository(Paths.get("todos.json"));
+    Path file = Paths.get("todos.json");
+    return new TodoRepositoryJson(file);
   }
 }

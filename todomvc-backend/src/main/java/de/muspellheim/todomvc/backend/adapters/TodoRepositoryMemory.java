@@ -10,7 +10,7 @@ import de.muspellheim.todomvc.contract.data.Todo;
 import java.util.Collections;
 import java.util.List;
 
-public class TodoMemoryRepository implements TodoRepository {
+public class TodoRepositoryMemory implements TodoRepository {
   private List<Todo> todos = Collections.emptyList();
 
   @Override
