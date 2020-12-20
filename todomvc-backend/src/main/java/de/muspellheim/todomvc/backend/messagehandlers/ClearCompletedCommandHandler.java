@@ -7,6 +7,7 @@ package de.muspellheim.todomvc.backend.messagehandlers;
 
 import de.muspellheim.todomvc.backend.TodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
+import de.muspellheim.todomvc.contract.messages.CommandHandling;
 import de.muspellheim.todomvc.contract.messages.CommandStatus;
 import de.muspellheim.todomvc.contract.messages.Failure;
 import de.muspellheim.todomvc.contract.messages.Success;
@@ -15,13 +16,14 @@ import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.var;
 
-public class ClearCompletedCommandHandler {
+public class ClearCompletedCommandHandler implements CommandHandling<ClearCompletedCommand> {
   private final TodoRepository repository;
 
   public ClearCompletedCommandHandler(TodoRepository repository) {
     this.repository = repository;
   }
 
+  @Override
   public CommandStatus handle(@NonNull ClearCompletedCommand command) {
     try {
       var todos = repository.load().stream().filter(Todo::isActive).collect(Collectors.toList());

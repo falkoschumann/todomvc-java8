@@ -6,6 +6,7 @@
 package de.muspellheim.todomvc.backend.messagehandlers;
 
 import de.muspellheim.todomvc.backend.TodoRepository;
+import de.muspellheim.todomvc.contract.messages.CommandHandling;
 import de.muspellheim.todomvc.contract.messages.CommandStatus;
 import de.muspellheim.todomvc.contract.messages.Failure;
 import de.muspellheim.todomvc.contract.messages.Success;
@@ -14,13 +15,14 @@ import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.var;
 
-public class DestroyCommandHandler {
+public class DestroyCommandHandler implements CommandHandling<DestroyCommand> {
   private final TodoRepository repository;
 
   public DestroyCommandHandler(TodoRepository repository) {
     this.repository = repository;
   }
 
+  @Override
   public CommandStatus handle(@NonNull DestroyCommand command) {
     try {
       var todos =
