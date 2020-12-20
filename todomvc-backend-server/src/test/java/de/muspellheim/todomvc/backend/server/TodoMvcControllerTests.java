@@ -39,6 +39,7 @@ import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 public class TodoMvcControllerTests {
+  private WebTarget webTarget;
   private TodoRepository repository;
 
   @BeforeEach
@@ -46,13 +47,20 @@ public class TodoMvcControllerTests {
     repository = new TodoRepositoryMemory();
     repository.store(createTodos());
     TodoMvcController.repository = repository;
+
+    webTarget =
+        ClientBuilder.newBuilder()
+            .register(JacksonJaxbJsonProvider.class)
+            .build()
+            .target("http://localhost:8081")
+            .path("api");
   }
 
   @Test
   void handleNewTodoCommandWithSuccess() {
     var command = new NewTodoCommand("Foobar");
 
-    var response = createWebTarget().path("newtodocommand").request().post(Entity.json(command));
+    var response = webTarget.path("newtodocommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle new todo command with success",
@@ -72,7 +80,7 @@ public class TodoMvcControllerTests {
   void handleNewTodoCommandMissingTitleWithFailure() {
     var command = new EmptyMessage();
 
-    var response = createWebTarget().path("newtodocommand").request().post(Entity.json(command));
+    var response = webTarget.path("newtodocommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle new todo command missing title with failure",
@@ -93,7 +101,7 @@ public class TodoMvcControllerTests {
   void handleToggleCommandWithSuccess() {
     var command = new ToggleCommand("d2f7760d-8f03-4cb3-9176-06311cb89993");
 
-    var response = createWebTarget().path("togglecommand").request().post(Entity.json(command));
+    var response = webTarget.path("togglecommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle toggle command with success",
@@ -114,8 +122,7 @@ public class TodoMvcControllerTests {
 
   @Test
   void handleToggleCommand_MissingId_Error() {
-    var response =
-        createWebTarget().path("togglecommand").request().post(Entity.json(new EmptyMessage()));
+    var response = webTarget.path("togglecommand").request().post(Entity.json(new EmptyMessage()));
 
     assertAll(
         "Handle toggle command missing id with failure",
@@ -136,7 +143,7 @@ public class TodoMvcControllerTests {
   void handleToggleAllCommandWithSuccess() {
     var command = new ToggleAllCommand(true);
 
-    var response = createWebTarget().path("toggleallcommand").request().post(Entity.json(command));
+    var response = webTarget.path("toggleallcommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle toggle all command with success",
@@ -159,7 +166,7 @@ public class TodoMvcControllerTests {
   void handleToggleAllCommandMissingCompletedWithFailure() {
     var command = new EmptyMessage();
 
-    var response = createWebTarget().path("toggleallcommand").request().post(Entity.json(command));
+    var response = webTarget.path("toggleallcommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle toggle all command missing completed with failure",
@@ -181,7 +188,7 @@ public class TodoMvcControllerTests {
   void handleEditCommandWithSuccess() {
     var command = new EditCommand("d2f7760d-8f03-4cb3-9176-06311cb89993", "Foobar");
 
-    var response = createWebTarget().path("editcommand").request().post(Entity.json(command));
+    var response = webTarget.path("editcommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle edit command with success",
@@ -204,7 +211,7 @@ public class TodoMvcControllerTests {
   void handleEditCommandMissingIdWithFailure() {
     var command = new EditCommand(null, "Foobar");
 
-    var response = createWebTarget().path("editcommand").request().post(Entity.json(command));
+    var response = webTarget.path("editcommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle edit command missing id with failure",
@@ -225,7 +232,7 @@ public class TodoMvcControllerTests {
   void handleEditCommandMissingTitleWithFailure() {
     var command = new EditCommand("d2f7760d-8f03-4cb3-9176-06311cb89993", null);
 
-    var response = createWebTarget().path("editcommand").request().post(Entity.json(command));
+    var response = webTarget.path("editcommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle edit command missing title with failure",
@@ -246,7 +253,7 @@ public class TodoMvcControllerTests {
   void handleDestroyCommandWithSuccess() {
     var command = new DestroyCommand("119e6785-8ffc-42e0-8df6-dbc64881f2b7");
 
-    var response = createWebTarget().path("destroycommand").request().post(Entity.json(command));
+    var response = webTarget.path("destroycommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle destroy command with success",
@@ -268,7 +275,7 @@ public class TodoMvcControllerTests {
   void handleDestroyCommandMissingIdWithFailure() {
     var command = new EmptyMessage();
 
-    var response = createWebTarget().path("destroycommand").request().post(Entity.json(command));
+    var response = webTarget.path("destroycommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle destroy command missing id with failure",
@@ -289,8 +296,7 @@ public class TodoMvcControllerTests {
   void handleClearCompletedCommandWithSuccess() {
     var command = new ClearCompletedCommand();
 
-    var response =
-        createWebTarget().path("clearcompletedcommand").request().post(Entity.json(command));
+    var response = webTarget.path("clearcompletedcommand").request().post(Entity.json(command));
 
     assertAll(
         "Handle clear completed command with success",
@@ -313,7 +319,7 @@ public class TodoMvcControllerTests {
     var client = ClientBuilder.newClient();
     try {
       var result =
-          createWebTarget()
+          webTarget
               .path("todosquery")
               .request(MediaType.APPLICATION_JSON_TYPE)
               .get(TodosQueryResult.class);
@@ -328,13 +334,5 @@ public class TodoMvcControllerTests {
     return Arrays.asList(
         new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
         new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false));
-  }
-
-  private WebTarget createWebTarget() {
-    return ClientBuilder.newBuilder()
-        .register(JacksonJaxbJsonProvider.class)
-        .build()
-        .target("http://localhost:8081")
-        .path("api");
   }
 }
