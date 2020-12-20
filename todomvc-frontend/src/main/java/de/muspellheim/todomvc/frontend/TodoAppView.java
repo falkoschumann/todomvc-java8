@@ -28,8 +28,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -66,7 +66,7 @@ public class TodoAppView extends VBox {
 
   public TodoAppView() {
     var title = new Label("todos");
-    title.setStyle("-fx-text-fill: darksalmon;-fx-font-size: 42;");
+    title.setStyle("-fx-text-fill: darksalmon;-fx-font-size: 40;");
 
     toggleAll = new CheckBox();
     toggleAll.setOnAction(
@@ -83,18 +83,17 @@ public class TodoAppView extends VBox {
           if (text.isEmpty()) {
             return;
           }
+
           onNewTodoCommand.accept(new NewTodoCommand(text));
           newTodo.setText("");
         });
     HBox.setHgrow(newTodo, Priority.ALWAYS);
 
-    HBox newTodoWrapper = new HBox();
-    newTodoWrapper.setSpacing(8);
+    HBox newTodoWrapper = new HBox(8);
     newTodoWrapper.setAlignment(Pos.CENTER_LEFT);
     newTodoWrapper.getChildren().addAll(toggleAll, newTodo);
 
-    var header = new VBox();
-    header.setSpacing(8);
+    var header = new VBox(8);
     header.setPadding(new Insets(12, 12, 8, 12));
     header.setAlignment(Pos.CENTER);
     header.getChildren().addAll(title, newTodoWrapper);
@@ -110,8 +109,8 @@ public class TodoAppView extends VBox {
 
     todoCount = new TextFlow(count, countSuffix);
 
-    var spacer1 = new Pane();
-    HBox.setHgrow(spacer1, Priority.ALWAYS);
+    var spacerLeft = new Region();
+    HBox.setHgrow(spacerLeft, Priority.ALWAYS);
 
     filterGroup = new ToggleGroup();
 
@@ -128,29 +127,34 @@ public class TodoAppView extends VBox {
     completedFilter.setToggleGroup(filterGroup);
     completedFilter.setOnAction(e -> updateTodoList());
 
-    var spacer2 = new Pane();
-    HBox.setHgrow(spacer2, Priority.ALWAYS);
+    var spacerRight = new Region();
+    HBox.setHgrow(spacerRight, Priority.ALWAYS);
 
     clearCompleted = new Button("Clear Completed");
     clearCompleted.setOnAction(e -> onClearCompletedCommand.accept(new ClearCompletedCommand()));
 
-    footer = new HBox();
-    footer.setSpacing(8);
+    footer = new HBox(8);
     footer.setPadding(new Insets(8, 12, 8, 12));
     footer
         .getChildren()
         .addAll(
-            todoCount, spacer1, allFilter, activeFilter, completedFilter, spacer2, clearCompleted);
+            todoCount,
+            spacerLeft,
+            allFilter,
+            activeFilter,
+            completedFilter,
+            spacerRight,
+            clearCompleted);
 
     var helptext = new Label("Double-click to edit a todo");
     helptext.setStyle("-fx-text-fill: darkgrey;");
 
-    var info = new HBox();
+    var info = new HBox(8);
     info.setAlignment(Pos.CENTER);
     info.setPadding(new Insets(8, 12, 12, 12));
     info.getChildren().add(helptext);
 
-    setStyle("-fx-font-family: Verdana Arial sans-serif;");
+    setStyle("-fx-font-family: Verdana");
     setPrefSize(500, 400);
     getChildren().addAll(header, todoList, footer, info);
   }
@@ -164,7 +168,7 @@ public class TodoAppView extends VBox {
     updateTodoList();
 
     var completedCount = result.getTodos().stream().filter(Todo::isCompleted).count();
-    var activeTodoCount = result.getTodos().size() - completedCount;
+    var activeTodoCount = result.getTodos().stream().filter(Todo::isActive).count();
 
     var hasTodos = !result.getTodos().isEmpty();
     allFilter.setVisible(hasTodos);

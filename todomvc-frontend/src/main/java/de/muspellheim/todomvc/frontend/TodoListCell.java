@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
@@ -34,6 +35,8 @@ public class TodoListCell<T extends TodoModel> extends ListCell<T> {
     HBox.setHgrow(title, Priority.ALWAYS);
 
     edit = new TextField();
+    edit.setMaxWidth(Double.MAX_VALUE);
+    edit.setMaxHeight(Double.MAX_VALUE);
     HBox.setHgrow(edit, Priority.ALWAYS);
 
     destroy = new Button("X");
@@ -64,23 +67,15 @@ public class TodoListCell<T extends TodoModel> extends ListCell<T> {
           it -> item.getOnToggleCommand().accept((new ToggleCommand(item.getTodo().getId()))));
 
       title.setText(item.getTodo().getTitle());
-      title.setOnMouseClicked(
-          it -> {
-            if (it.getButton() == MouseButton.PRIMARY && it.getClickCount() == 2) {
-              completed.setVisible(false);
-              container.getChildren().set(1, edit);
-              edit.requestFocus();
-              destroy.setVisible(false);
-            }
-          });
+      title.setOnMouseClicked(it -> startEdit(it));
 
       edit.setText(item.getTodo().getTitle());
-      edit.setOnAction(it -> edit());
+      edit.setOnAction(it -> endEdit());
       edit.focusedProperty()
           .addListener(
               (observableValue, oldValue, newValue) -> {
                 if (oldValue && !newValue) {
-                  edit();
+                  endEdit();
                 }
               });
 
@@ -89,7 +84,16 @@ public class TodoListCell<T extends TodoModel> extends ListCell<T> {
     }
   }
 
-  private void edit() {
+  private void startEdit(MouseEvent it) {
+    if (it.getButton() == MouseButton.PRIMARY && it.getClickCount() == 2) {
+      completed.setVisible(false);
+      container.getChildren().set(1, edit);
+      edit.requestFocus();
+      destroy.setVisible(false);
+    }
+  }
+
+  private void endEdit() {
     getItem()
         .getOnEditCommand()
         .accept(new EditCommand(getItem().getTodo().getId(), edit.getText().trim()));
