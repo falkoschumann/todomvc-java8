@@ -5,7 +5,6 @@
 
 package de.muspellheim.todomvc.contract.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +24,6 @@ public class Todo {
     this.title = title;
   }
 
-  @JsonIgnore
   public final boolean isActive() {
     return !completed;
   }

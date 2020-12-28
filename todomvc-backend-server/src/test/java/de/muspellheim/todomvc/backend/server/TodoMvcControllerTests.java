@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import de.muspellheim.todomvc.backend.TodoRepository;
 import de.muspellheim.todomvc.backend.adapters.TodoRepositoryMemory;
 import de.muspellheim.todomvc.contract.data.Todo;
@@ -24,7 +23,6 @@ import de.muspellheim.todomvc.contract.messages.commands.NewTodoCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleAllCommand;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQueryResult;
-import io.quarkus.test.junit.QuarkusTest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -34,11 +32,16 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import lombok.var;
+import org.apache.johnzon.jaxrs.jsonb.jaxrs.JsonbJaxrsProvider;
+import org.apache.meecrowave.Meecrowave;
+import org.apache.meecrowave.junit5.MeecrowaveConfig;
+import org.apache.meecrowave.testing.ConfigurationInject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@QuarkusTest
+@MeecrowaveConfig
 public class TodoMvcControllerTests {
+  @ConfigurationInject private Meecrowave.Builder config;
   private WebTarget webTarget;
   private TodoRepository repository;
 
@@ -50,9 +53,9 @@ public class TodoMvcControllerTests {
 
     webTarget =
         ClientBuilder.newBuilder()
-            .register(JacksonJaxbJsonProvider.class)
+            .register(JsonbJaxrsProvider.class)
             .build()
-            .target("http://localhost:8081")
+            .target("http://localhost:" + config.getHttpPort())
             .path("api");
   }
 

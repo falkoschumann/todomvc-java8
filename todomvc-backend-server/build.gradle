@@ -1,22 +1,18 @@
 plugins {
-    id 'todomvc.java-common-conventions'
-    id 'io.quarkus' version '1.10.3.Final'
-    id 'io.swagger.core.v3.swagger-gradle-plugin' version '2.1.5'
+    id 'todomvc.java-application-conventions'
+    id 'io.swagger.core.v3.swagger-gradle-plugin'
 }
 
 dependencies {
     implementation project(':todomvc-backend')
-    implementation enforcedPlatform('io.quarkus:quarkus-universe-bom:1.10.3.Final')
-    implementation 'io.quarkus:quarkus-rest-client'
-    implementation 'io.quarkus:quarkus-resteasy-jackson'
-    implementation 'io.quarkus:quarkus-arc'
-    implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'org.apache.meecrowave:meecrowave-core:1.2.10'
+    implementation 'commons-cli:commons-cli:1.4'
     implementation 'io.swagger.core.v3:swagger-annotations:2.1.5'
-    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'org.apache.meecrowave:meecrowave-junit:1.2.10'
 }
 
-quarkusDev {
-    workingDir = projectDir
+application {
+    mainClassName = 'org.apache.meecrowave.runner.Cli'
 }
 
 resolve {
