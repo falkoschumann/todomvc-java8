@@ -13,6 +13,7 @@ application {
 
 task runDemo(type: JavaExec) {
     group = 'application'
-    main = 'de.muspellheim.todomvc.DemoApp'
+    main = application.mainClassName
+    args = ["-demo"]
     classpath = sourceSets.main.runtimeClasspath
 }
