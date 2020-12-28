@@ -1,12 +1,10 @@
 plugins {
     id 'todomvc.java-application-uberjar-conventions'
+    id 'todomvc.java-webclient-conventions'
 }
 
 dependencies {
     implementation project(':todomvc-frontend')
-    implementation 'org.apache.meecrowave:meecrowave-specs-api:1.2.10'
-    implementation 'org.apache.cxf:cxf-rt-rs-client:3.4.1'
-    implementation 'org.apache.johnzon:johnzon-jsonb:1.2.8'
 }
 
 application {

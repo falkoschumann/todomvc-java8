@@ -1,0 +1,5 @@
+dependencies {
+    implementation 'org.apache.meecrowave:meecrowave-specs-api:1.2.10'
+    implementation 'org.apache.cxf:cxf-rt-rs-client:3.4.1'
+    implementation 'org.apache.johnzon:johnzon-jsonb:1.2.8'
+}
