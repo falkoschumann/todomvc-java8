@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'com.diffplug.spotless'
     id 'io.freefair.lombok'
 }
@@ -29,8 +30,12 @@ test {
     testLogging {
         events("passed", "skipped", "failed")
     }
+    finalizedBy jacocoTestReport
 }
 
+jacocoTestReport {
+    dependsOn test
+}
 spotless {
     java {
         googleJavaFormat()
