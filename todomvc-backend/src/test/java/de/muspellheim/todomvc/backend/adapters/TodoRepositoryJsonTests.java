@@ -23,7 +23,7 @@ public class TodoRepositoryJsonTests {
 
   @Test
   void load() throws IOException {
-    var repository = new TodoRepositoryJson(READ_TEST_FILE);
+    var repository = new JsonTodoRepository(READ_TEST_FILE);
 
     var todos = repository.load();
 
@@ -33,7 +33,7 @@ public class TodoRepositoryJsonTests {
   @Test
   void store() throws IOException {
     Files.createDirectories(WRITTEN_TEST_FILE.getParent());
-    var repository = new TodoRepositoryJson(WRITTEN_TEST_FILE);
+    var repository = new JsonTodoRepository(WRITTEN_TEST_FILE);
     var todos = createTestData();
 
     repository.store(todos);

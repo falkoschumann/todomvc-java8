@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import de.muspellheim.todomvc.backend.adapters.TodoRepositoryMemory;
+import de.muspellheim.todomvc.backend.adapters.MemoryTodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
 import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.NewTodoCommand;
@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public class NewTodoCommandHandlerTests {
   @Test
   void handleNewTodoCommand() {
-    var repository = new TodoRepositoryMemory();
+    var repository = new MemoryTodoRepository();
     repository.store(
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),

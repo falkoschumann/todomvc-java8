@@ -6,8 +6,8 @@
 package de.muspellheim.todomvc;
 
 import de.muspellheim.todomvc.backend.TodoRepository;
-import de.muspellheim.todomvc.backend.adapters.TodoRepositoryJson;
-import de.muspellheim.todomvc.backend.adapters.TodoRepositoryMemory;
+import de.muspellheim.todomvc.backend.adapters.JsonTodoRepository;
+import de.muspellheim.todomvc.backend.adapters.MemoryTodoRepository;
 import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.EditCommandHandler;
@@ -37,14 +37,14 @@ public class App extends Application {
     var demo = getParameters().getUnnamed().contains("-demo");
     if (demo) {
       System.out.println("Run in demo mode...");
-      repository = new TodoRepositoryMemory();
+      repository = new MemoryTodoRepository();
       repository.store(
           Arrays.asList(
               new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),
               new Todo("d2f7760d-8f03-4cb3-9176-06311cb89993", "Buy a unicorn", false)));
     } else {
       var file = Paths.get("todos.json");
-      repository = new TodoRepositoryJson(file);
+      repository = new JsonTodoRepository(file);
     }
   }
 

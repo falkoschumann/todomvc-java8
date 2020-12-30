@@ -7,7 +7,7 @@ package de.muspellheim.todomvc.backend.messagehandlers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import de.muspellheim.todomvc.backend.adapters.TodoRepositoryMemory;
+import de.muspellheim.todomvc.backend.adapters.MemoryTodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQueryResult;
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 public class TodosQueryHandlerTests {
   @Test
   void handleTodosQuery() {
-    var repository = new TodoRepositoryMemory();
+    var repository = new MemoryTodoRepository();
     repository.store(
         Arrays.asList(
             new Todo("119e6785-8ffc-42e0-8df6-dbc64881f2b7", "Taste JavaScript", true),

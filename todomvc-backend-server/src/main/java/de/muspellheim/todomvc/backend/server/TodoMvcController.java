@@ -6,7 +6,7 @@
 package de.muspellheim.todomvc.backend.server;
 
 import de.muspellheim.todomvc.backend.TodoRepository;
-import de.muspellheim.todomvc.backend.adapters.TodoRepositoryJson;
+import de.muspellheim.todomvc.backend.adapters.JsonTodoRepository;
 import de.muspellheim.todomvc.backend.messagehandlers.ClearCompletedCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.DestroyCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.EditCommandHandler;
@@ -49,7 +49,7 @@ public class TodoMvcController {
 
   static {
     var file = Paths.get("todos.json");
-    repository = new TodoRepositoryJson(file);
+    repository = new JsonTodoRepository(file);
   }
 
   @Path("newtodocommand")
