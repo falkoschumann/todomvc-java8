@@ -16,11 +16,8 @@ repositories {
   }
 }
 
-java {
-  toolchain {
-    languageVersion = JavaLanguageVersion.of(8)
-  }
-}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 compileJava {
   options.encoding = 'UTF-8'

@@ -1,6 +1,6 @@
-# TodoMVC
+![Java CI](https://github.com/falkoschumann/todomvc-java/workflows/Java%20CI/badge.svg)
 
-[![Build Status](https://travis-ci.org/falkoschumann/todomvc-java.svg?branch=master)](https://travis-ci.org/falkoschumann/todomvc-java)
+# TodoMVC
 
 TODO: Description
 
