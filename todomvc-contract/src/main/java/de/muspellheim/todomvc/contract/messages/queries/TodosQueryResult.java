@@ -5,8 +5,8 @@
 
 package de.muspellheim.todomvc.contract.messages.queries;
 
+import de.muspellheim.messages.QueryResult;
 import de.muspellheim.todomvc.contract.data.Todo;
-import de.muspellheim.todomvc.contract.messages.QueryResult;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;

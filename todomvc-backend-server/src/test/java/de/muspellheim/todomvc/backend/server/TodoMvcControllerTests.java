@@ -10,12 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import de.muspellheim.messages.*;
 import de.muspellheim.todomvc.backend.TodoRepository;
 import de.muspellheim.todomvc.backend.adapters.MemoryTodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
-import de.muspellheim.todomvc.contract.messages.Failure;
-import de.muspellheim.todomvc.contract.messages.HttpCommandStatus;
-import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ClearCompletedCommand;
 import de.muspellheim.todomvc.contract.messages.commands.DestroyCommand;
 import de.muspellheim.todomvc.contract.messages.commands.EditCommand;

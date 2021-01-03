@@ -5,7 +5,7 @@
 
 package de.muspellheim.todomvc.contract.messages.commands;
 
-import de.muspellheim.todomvc.contract.messages.Command;
+import de.muspellheim.messages.Command;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

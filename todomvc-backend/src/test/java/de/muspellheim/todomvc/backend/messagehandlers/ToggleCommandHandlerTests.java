@@ -7,9 +7,9 @@ package de.muspellheim.todomvc.backend.messagehandlers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import de.muspellheim.messages.*;
 import de.muspellheim.todomvc.backend.adapters.MemoryTodoRepository;
 import de.muspellheim.todomvc.contract.data.Todo;
-import de.muspellheim.todomvc.contract.messages.Success;
 import de.muspellheim.todomvc.contract.messages.commands.ToggleCommand;
 import java.util.Arrays;
 import lombok.var;

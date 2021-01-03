@@ -5,7 +5,7 @@
 
 package de.muspellheim.todomvc.contract.messages.queries;
 
-import de.muspellheim.todomvc.contract.messages.Query;
+import de.muspellheim.messages.Query;
 import lombok.Data;
 
 @Data
