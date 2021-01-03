@@ -11,7 +11,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/falkoschumann/muspellheim-libs-java")
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("USER")
-            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
         }
     }
 }
