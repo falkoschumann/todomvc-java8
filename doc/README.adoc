@@ -23,3 +23,9 @@ Lorem ipsum.
 image::http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/falkoschumann/java-todomvc/master/doc/ComponentTodoMVCView.puml[Components for Conatiner TodoMVC]
 
 Lorem ipsum.
+
+=== Components for Conatiner TodoMVC Distributed
+
+image::http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/falkoschumann/java-todomvc/master/doc/ComponentTodoMVCDistributedView.puml[Components for Conatiner TodoMVC Distributed]
+
+Lorem ipsum.

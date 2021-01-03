@@ -6,9 +6,16 @@ title Containers for System TodoMVC
 Person(user, "User", "A user with a list of todos.")
 System_Boundary(todomvc_system, "TodoMVC") {
   Container(todomvc_app, "Application", "Java, JavaFX", "Allows users to view and edit their todo list.")
-  ContainerDb(filesystem, "Filesystem Data Store", "JSON", "Stores JSON-File with todo list.")
+  Container(todomvc_distributed_app, "Distributed Application", "Java, JavaFX", "Allows users to view and edit their todo list.")
+  Container(todomvc_backend_server_app, "Backend Server", "Java, Meecrowave", "Handle commands and queries from distributed app.")
 }
+
+SystemDb(filesystem, "Filesystem", "Stores JSON-File with todo list.")
 
 Rel(user, todomvc_app, "Uses", "JavaFX")
 Rel(todomvc_app, filesystem, "Load/Store", "JSON")
+
+Rel(user, todomvc_distributed_app, "Uses", "JavaFX")
+Rel(todomvc_distributed_app, todomvc_backend_server_app, "Command/Query", "HTTP, JSON")
+Rel(todomvc_backend_server_app, filesystem, "Load/Store", "JSON")
 @enduml

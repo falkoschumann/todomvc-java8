@@ -1,0 +1,27 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Component.puml
+
+title Components for Container TodoMVC
+
+Person(user, "User", "A user with a list of todos.")
+Container_Boundary(todomvc_distributed_app, "Distributed Application") {
+  Component(todomvc_distributed, "Distributed Application", "Java, JavaFX", "Allows users to view and edit their todo list.")
+  Component(todomvc_frontend, "Frontend", "Java, JavaFX", "Creates commands and queries and displays query results.")
+  Component(todomvc_contract1, "Contract", "Java", "Defines commands, queries and common data.")
+}
+Container_Boundary(todomvc_backend_server_app, "Backend Server") {
+  Component(todomvc_backend_server, "Backend Server", "Java, Meecrowave", "Handle commands and queries from distributed app.")
+  Component(todomvc_backend, "Backend", "Java", "Handles commands and queries.")
+  Component(todomvc_contract2, "Contract", "Java", "Defines commands, queries and common data.")
+}
+SystemDb(filesystem, "Filesystem Data Store", "Stores JSON-File with todo list.")
+
+Rel(user, todomvc_distributed, "Uses", "JavaFX")
+Rel(todomvc_distributed, todomvc_frontend, "Uses", "Java, Library")
+Rel(todomvc_frontend, todomvc_contract1, "Uses", "Java, Library")
+Rel(todomvc_distributed, todomvc_backend_server, "Uses", "HTTP, JSON")
+Rel(todomvc_backend_server, todomvc_backend, "Uses", "Java, Library")
+Rel(todomvc_backend, todomvc_contract2, "Uses", "Java, Library")
+Rel(todomvc_backend, filesystem, "Load/Store", "JSON")
+
+@enduml
