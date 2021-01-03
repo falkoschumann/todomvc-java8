@@ -1,4 +1,4 @@
-![Java CI](https://github.com/falkoschumann/todomvc-java/workflows/Java%20CI/badge.svg)
+![Java CI](https://github.com/falkoschumann/todomvc-java8/workflows/Java%20CI/badge.svg)
 
 # TodoMVC
 
