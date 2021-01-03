@@ -1,26 +1,26 @@
 plugins {
-    id 'todomvc.java-application-conventions'
-    id 'io.swagger.core.v3.swagger-gradle-plugin'
+  id 'todomvc.java-application-conventions'
+  id 'io.swagger.core.v3.swagger-gradle-plugin'
 }
 
 dependencies {
-    implementation 'org.apache.meecrowave:meecrowave-core:1.2.10'
-    implementation 'commons-cli:commons-cli:1.4'
-    implementation 'io.swagger.core.v3:swagger-annotations:2.1.5'
-    testImplementation 'org.apache.meecrowave:meecrowave-junit:1.2.10'
+  implementation 'org.apache.meecrowave:meecrowave-core:1.2.10'
+  implementation 'commons-cli:commons-cli:1.4'
+  implementation 'io.swagger.core.v3:swagger-annotations:2.1.5'
+  testImplementation 'org.apache.meecrowave:meecrowave-junit:1.2.10'
 }
 
 application {
-    mainClassName = 'org.apache.meecrowave.runner.Cli'
+  mainClassName = 'org.apache.meecrowave.runner.Cli'
 }
 
 resolve {
-    classpath = sourceSets.main.runtimeClasspath
-    prettyPrint = true
+  classpath = sourceSets.main.runtimeClasspath
+  prettyPrint = true
 }
 
 processResources {
-    doLast {
-        resolve.resolve()
-    }
+  doLast {
+    resolve.resolve()
+  }
 }

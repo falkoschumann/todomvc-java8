@@ -1,13 +1,13 @@
 plugins {
-    id 'todomvc.java-webapp-conventions'
+  id 'todomvc.java-webapp-conventions'
 }
 
 dependencies {
-    implementation project(':todomvc-backend')
+  implementation project(':todomvc-backend')
 }
 
 resolve {
-    resourcePackages = ['de.muspellheim.todomvc.backend.server']
-    outputDir = file 'build/resources/main/META-INF/resources'
-    outputFileName = 'todomvc-api'
+  resourcePackages = ['de.muspellheim.todomvc.backend.server']
+  outputDir = file 'build/resources/main/META-INF/resources'
+  outputFileName = 'todomvc-api'
 }

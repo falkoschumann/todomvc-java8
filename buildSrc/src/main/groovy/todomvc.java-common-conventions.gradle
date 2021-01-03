@@ -1,51 +1,55 @@
 plugins {
-    id 'java'
-    id 'jacoco'
-    id 'com.diffplug.spotless'
-    id 'io.freefair.lombok'
+  id 'java'
+  id 'jacoco'
+  id 'com.diffplug.spotless'
+  id 'io.freefair.lombok'
 }
 
 repositories {
-    jcenter()
-    maven {
-        url = uri("https://maven.pkg.github.com/falkoschumann/muspellheim-libs-java")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USER")
-            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-        }
+  jcenter()
+  maven {
+    url = uri("https://maven.pkg.github.com/falkoschumann/muspellheim-libs-java")
+    credentials {
+      username = project.findProperty("gpr.user") ?: System.getenv("USER")
+      password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
     }
+  }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(8)
+  }
+}
 
 compileJava {
-    options.encoding = 'UTF-8'
+  options.encoding = 'UTF-8'
 }
 
 compileTestJava {
-    options.encoding = 'UTF-8'
+  options.encoding = 'UTF-8'
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 test {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
-    finalizedBy jacocoTestReport
+  useJUnitPlatform()
+  testLogging {
+    events("passed", "skipped", "failed")
+  }
+  finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-    dependsOn test
+  dependsOn test
 }
+
 spotless {
-    java {
-        googleJavaFormat()
-        licenseHeaderFile('config/LicenseHeader.txt')
-    }
+  java {
+    googleJavaFormat()
+    licenseHeaderFile('config/LicenseHeader.txt')
+  }
 }

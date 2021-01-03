@@ -1,19 +1,19 @@
 plugins {
-    id 'todomvc.java-application-uberjar-conventions'
+  id 'todomvc.java-application-uberjar-conventions'
 }
 
 dependencies {
-    implementation project(':todomvc-frontend')
-    implementation project(':todomvc-backend')
+  implementation project(':todomvc-frontend')
+  implementation project(':todomvc-backend')
 }
 
 application {
-    mainClassName = 'de.muspellheim.todomvc.App'
+  mainClassName = 'de.muspellheim.todomvc.App'
 }
 
 task runDemo(type: JavaExec) {
-    group = 'application'
-    main = application.mainClassName
-    args = ["-demo"]
-    classpath = sourceSets.main.runtimeClasspath
+  group = 'application'
+  main = application.mainClassName
+  args = ["-demo"]
+  classpath = sourceSets.main.runtimeClasspath
 }
