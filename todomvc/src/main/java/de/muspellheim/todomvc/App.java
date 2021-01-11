@@ -17,16 +17,19 @@ import de.muspellheim.todomvc.backend.messagehandlers.ToggleAllCommandHandler;
 import de.muspellheim.todomvc.backend.messagehandlers.ToggleCommandHandler;
 import de.muspellheim.todomvc.contract.data.Todo;
 import de.muspellheim.todomvc.contract.messages.queries.TodosQuery;
-import de.muspellheim.todomvc.frontend.TodoAppView;
+import de.muspellheim.todomvc.frontend.AboutViewController;
+import de.muspellheim.todomvc.frontend.TodosViewController;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Properties;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.var;
 
 public class App extends Application {
   private TodoRepository repository;
+  private boolean useSystemMenuBar;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -34,7 +37,7 @@ public class App extends Application {
 
   @Override
   public void init() throws Exception {
-    var demo = getParameters().getUnnamed().contains("-demo");
+    var demo = getParameters().getUnnamed().contains("--demo");
     if (demo) {
       System.out.println("Run in demo mode...");
       repository = new MemoryTodoRepository();
@@ -46,10 +49,16 @@ public class App extends Application {
       var file = Paths.get("todos.json");
       repository = new JsonTodoRepository(file);
     }
+
+    useSystemMenuBar = getParameters().getUnnamed().contains("--useSystemMenuBar");
   }
 
   @Override
-  public void start(Stage stage) {
+  public void start(Stage primaryStage) throws Exception {
+    //
+    // Build
+    //
+
     var newTodoCommandHandler = new NewTodoCommandHandler(repository);
     var toggleCommandHandler = new ToggleCommandHandler(repository);
     var toggleAllCommandHandler = new ToggleAllCommandHandler(repository);
@@ -58,55 +67,78 @@ public class App extends Application {
     var clearCompletedCommandHandler = new ClearCompletedCommandHandler(repository);
     var todosQueryHandler = new TodosQueryHandler(repository);
 
-    var frontend = new TodoAppView();
+    var todosViewController = TodosViewController.create(primaryStage, useSystemMenuBar);
 
-    frontend.setOnNewTodoCommand(
+    var aboutStage = new Stage();
+    aboutStage.initOwner(primaryStage);
+    var aboutViewController = AboutViewController.create(aboutStage);
+    var appIcon = getClass().getResource("/app.png");
+    aboutViewController.setIcon(appIcon.toString());
+    try (InputStream in = getClass().getResourceAsStream("/app.properties")) {
+      var appProperties = new Properties();
+      appProperties.load(in);
+      aboutViewController.setTitle(appProperties.getProperty("title"));
+      aboutViewController.setVersion(appProperties.getProperty("version"));
+      aboutViewController.setCopyright(appProperties.getProperty("copyright"));
+    }
+
+    //
+    // Bind
+    //
+
+    todosViewController.setOnOpenAbout(() -> aboutStage.show());
+    todosViewController.setOnNewTodoCommand(
         it -> {
           newTodoCommandHandler.handle(it);
           var result = todosQueryHandler.handle(new TodosQuery());
-          frontend.display(result);
+          todosViewController.display(result);
         });
-    frontend.setOnToggleCommand(
+    todosViewController.setOnNewTodoCommand(
+        it -> {
+          newTodoCommandHandler.handle(it);
+          var result = todosQueryHandler.handle(new TodosQuery());
+          todosViewController.display(result);
+        });
+    todosViewController.setOnToggleCommand(
         it -> {
           toggleCommandHandler.handle(it);
           var result = todosQueryHandler.handle(new TodosQuery());
-          frontend.display(result);
+          todosViewController.display(result);
         });
-    frontend.setOnToggleAllCommand(
+    todosViewController.setOnToggleAllCommand(
         it -> {
           toggleAllCommandHandler.handle(it);
           var result = todosQueryHandler.handle(new TodosQuery());
-          frontend.display(result);
+          todosViewController.display(result);
         });
-    frontend.setOnEditCommand(
+    todosViewController.setOnEditCommand(
         it -> {
           editCommandHandler.handle(it);
           var result = todosQueryHandler.handle(new TodosQuery());
-          frontend.display(result);
+          todosViewController.display(result);
         });
-    frontend.setOnDestroyCommand(
+    todosViewController.setOnDestroyCommand(
         it -> {
           destroyCommandHandler.handle(it);
           var result = todosQueryHandler.handle(new TodosQuery());
-          frontend.display(result);
+          todosViewController.display(result);
         });
-    frontend.setOnClearCompletedCommand(
+    todosViewController.setOnClearCompletedCommand(
         it -> {
           clearCompletedCommandHandler.handle(it);
           var result = todosQueryHandler.handle(new TodosQuery());
-          frontend.display(result);
+          todosViewController.display(result);
         });
-    frontend.setOnTodosQuery(
+    todosViewController.setOnTodosQuery(
         it -> {
           var result = todosQueryHandler.handle(new TodosQuery());
-          frontend.display(result);
+          todosViewController.display(result);
         });
 
-    frontend.run();
+    //
+    // Run
+    //
 
-    Scene scene = new Scene(frontend);
-    stage.setScene(scene);
-    stage.setTitle("TodoMVC");
-    stage.show();
+    todosViewController.run();
   }
 }

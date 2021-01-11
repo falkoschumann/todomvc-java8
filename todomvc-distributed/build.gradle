@@ -1,3 +1,5 @@
+import java.time.LocalDate
+
 plugins {
   id 'todomvc.java-application-uberjar-conventions'
   id 'todomvc.java-webclient-conventions'
@@ -5,6 +7,15 @@ plugins {
 
 dependencies {
   implementation project(':todomvc-frontend')
+}
+
+def year = LocalDate.now().year
+def copyright = "Copyright (c) ${year} Falko Schumann"
+
+processResources {
+  filesMatching('**/*.properties') {
+    expand(title: 'Todos', version: rootProject.version, copyright: copyright)
+  }
 }
 
 application {
